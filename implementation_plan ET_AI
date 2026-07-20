@@ -1,0 +1,747 @@
+# IndusMind AI — Industrial Knowledge Intelligence Platform
+
+> **"The AI Brain for Industrial Operations"**
+
+Complete architecture, database schema, API design, and phased development roadmap for an enterprise-grade AI platform that transforms industrial document chaos into structured, actionable intelligence.
+
+---
+
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph "Frontend — Next.js 15 + React"
+        LP["Landing Page"]
+        AUTH["Auth (Clerk)"]
+        DASH["Dashboard"]
+        DOC["Document Manager"]
+        CHAT["AI Chat"]
+        KG["Knowledge Graph Viewer"]
+        MI["Maintenance Intelligence"]
+        CI["Compliance Intelligence"]
+        AN["Analytics"]
+        SET["Settings / Profile"]
+    end
+
+    subgraph "API Gateway — FastAPI"
+        R1["Auth Middleware"]
+        R2["REST API v1"]
+        R3["WebSocket (Chat Streaming)"]
+        R4["Swagger / OpenAPI"]
+    end
+
+    subgraph "Application Layer"
+        SVC1["Document Service"]
+        SVC2["AI / RAG Service"]
+        SVC3["Knowledge Graph Service"]
+        SVC4["Maintenance Intelligence Service"]
+        SVC5["Compliance Intelligence Service"]
+        SVC6["Analytics Service"]
+        SVC7["Search Service"]
+    end
+
+    subgraph "AI / ML Layer"
+        OCR["OCR Pipeline (PyMuPDF + PaddleOCR + Tesseract)"]
+        EMB["Embedding Engine (Sentence Transformers)"]
+        RAG["RAG Pipeline (LangChain + LlamaIndex)"]
+        NER["NER / Entity Extraction"]
+        LLM["LLM Gateway (OpenAI API)"]
+    end
+
+    subgraph "Data Layer"
+        PG["PostgreSQL"]
+        RD["Redis (Cache + Queue)"]
+        CH["ChromaDB (Vector Store)"]
+        N4["Neo4j (Knowledge Graph)"]
+        FS["File Storage (Local / S3)"]
+    end
+
+    subgraph "Infrastructure"
+        CL["Celery Workers"]
+        DK["Docker Compose"]
+        GH["GitHub Actions CI/CD"]
+    end
+
+    LP & AUTH & DASH & DOC & CHAT & KG & MI & CI & AN & SET --> R1
+    R1 --> R2 & R3
+    R2 --> SVC1 & SVC2 & SVC3 & SVC4 & SVC5 & SVC6 & SVC7
+    SVC1 --> OCR --> EMB --> CH
+    SVC2 --> RAG --> LLM
+    SVC3 --> NER --> N4
+    SVC1 & SVC4 & SVC5 & SVC6 --> PG
+    SVC2 --> RD
+    SVC1 --> FS
+    CL --> OCR & EMB & NER
+```
+
+---
+
+## Complete Project Structure
+
+```
+IndusMind AI/
+├── frontend/                          # Next.js 15 Application
+│   ├── public/
+│   │   ├── fonts/
+│   │   ├── images/
+│   │   └── icons/
+│   ├── src/
+│   │   ├── app/                       # App Router
+│   │   │   ├── (auth)/                # Auth route group
+│   │   │   │   ├── sign-in/
+│   │   │   │   └── sign-up/
+│   │   │   ├── (platform)/            # Main platform route group
+│   │   │   │   ├── dashboard/
+│   │   │   │   ├── documents/
+│   │   │   │   ├── chat/
+│   │   │   │   ├── knowledge-graph/
+│   │   │   │   ├── maintenance/
+│   │   │   │   ├── compliance/
+│   │   │   │   ├── analytics/
+│   │   │   │   ├── search/
+│   │   │   │   ├── settings/
+│   │   │   │   └── layout.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx               # Landing page
+│   │   │   └── globals.css
+│   │   ├── components/
+│   │   │   ├── ui/                    # shadcn/ui base components
+│   │   │   ├── layout/               # Sidebar, Navbar, Footer
+│   │   │   ├── dashboard/            # Dashboard widgets/cards
+│   │   │   ├── documents/            # Upload, preview, manager
+│   │   │   ├── chat/                 # Chat interface components
+│   │   │   ├── knowledge-graph/      # React Flow graph components
+│   │   │   ├── maintenance/          # Maintenance intelligence UI
+│   │   │   ├── compliance/           # Compliance intelligence UI
+│   │   │   ├── analytics/            # Chart components
+│   │   │   ├── search/               # Search components
+│   │   │   └── shared/               # Shared/common components
+│   │   ├── lib/
+│   │   │   ├── api.ts                # API client (axios)
+│   │   │   ├── utils.ts              # Utilities
+│   │   │   └── constants.ts          # App constants
+│   │   ├── hooks/                    # Custom React hooks
+│   │   ├── stores/                   # Zustand state stores
+│   │   ├── types/                    # TypeScript types/interfaces
+│   │   └── styles/                   # Additional styles
+│   ├── next.config.ts
+│   ├── tailwind.config.ts
+│   ├── tsconfig.json
+│   ├── package.json
+│   └── .env.local
+│
+├── backend/                           # FastAPI Application
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── v1/
+│   │   │       ├── endpoints/
+│   │   │       │   ├── auth.py
+│   │   │       │   ├── documents.py
+│   │   │       │   ├── chat.py
+│   │   │       │   ├── knowledge_graph.py
+│   │   │       │   ├── maintenance.py
+│   │   │       │   ├── compliance.py
+│   │   │       │   ├── analytics.py
+│   │   │       │   ├── search.py
+│   │   │       │   └── users.py
+│   │   │       ├── router.py
+│   │   │       └── deps.py
+│   │   ├── core/
+│   │   │   ├── config.py              # Pydantic BaseSettings
+│   │   │   ├── security.py            # JWT, RBAC
+│   │   │   ├── logging.py
+│   │   │   └── exceptions.py
+│   │   ├── domain/
+│   │   │   ├── models/                # SQLAlchemy ORM models
+│   │   │   │   ├── user.py
+│   │   │   │   ├── document.py
+│   │   │   │   ├── chunk.py
+│   │   │   │   ├── equipment.py
+│   │   │   │   ├── incident.py
+│   │   │   │   ├── maintenance.py
+│   │   │   │   ├── compliance.py
+│   │   │   │   ├── conversation.py
+│   │   │   │   └── knowledge_node.py
+│   │   │   └── enums.py
+│   │   ├── schemas/                   # Pydantic request/response DTOs
+│   │   │   ├── auth.py
+│   │   │   ├── document.py
+│   │   │   ├── chat.py
+│   │   │   ├── equipment.py
+│   │   │   ├── maintenance.py
+│   │   │   ├── compliance.py
+│   │   │   ├── analytics.py
+│   │   │   └── search.py
+│   │   ├── services/                  # Business logic layer
+│   │   │   ├── document_service.py
+│   │   │   ├── ai_service.py
+│   │   │   ├── rag_service.py
+│   │   │   ├── knowledge_graph_service.py
+│   │   │   ├── maintenance_service.py
+│   │   │   ├── compliance_service.py
+│   │   │   ├── analytics_service.py
+│   │   │   └── search_service.py
+│   │   ├── infrastructure/            # External integrations
+│   │   │   ├── database.py            # SQLAlchemy engine/session
+│   │   │   ├── redis.py
+│   │   │   ├── vector_store.py        # ChromaDB client
+│   │   │   ├── graph_db.py            # Neo4j driver
+│   │   │   ├── storage.py             # File storage
+│   │   │   └── llm.py                 # OpenAI / LLM client
+│   │   ├── repositories/             # Data access layer
+│   │   │   ├── document_repository.py
+│   │   │   ├── user_repository.py
+│   │   │   ├── equipment_repository.py
+│   │   │   ├── maintenance_repository.py
+│   │   │   ├── compliance_repository.py
+│   │   │   └── conversation_repository.py
+│   │   ├── workers/                   # Celery tasks
+│   │   │   ├── celery_app.py
+│   │   │   ├── document_tasks.py
+│   │   │   ├── embedding_tasks.py
+│   │   │   └── graph_tasks.py
+│   │   ├── ai/                        # AI/ML pipeline modules
+│   │   │   ├── ocr/
+│   │   │   │   ├── extractor.py
+│   │   │   │   └── preprocessor.py
+│   │   │   ├── embeddings/
+│   │   │   │   └── generator.py
+│   │   │   ├── rag/
+│   │   │   │   ├── pipeline.py
+│   │   │   │   ├── retriever.py
+│   │   │   │   └── reranker.py
+│   │   │   ├── ner/
+│   │   │   │   └── entity_extractor.py
+│   │   │   └── prompts/
+│   │   │       ├── system_prompts.py
+│   │   │       └── templates.py
+│   │   └── main.py                    # FastAPI app factory
+│   ├── alembic/                       # Database migrations
+│   │   ├── versions/
+│   │   └── env.py
+│   ├── alembic.ini
+│   ├── requirements.txt
+│   ├── pyproject.toml
+│   └── .env
+│
+├── database/
+│   ├── init.sql                       # Initial schema
+│   └── seed.sql                       # Demo/seed data
+│
+├── docker/
+│   ├── frontend.Dockerfile
+│   ├── backend.Dockerfile
+│   ├── docker-compose.yml
+│   ├── docker-compose.dev.yml
+│   └── .env.docker
+│
+├── docs/
+│   ├── architecture.md
+│   ├── api.md
+│   ├── deployment.md
+│   ├── er-diagram.md
+│   └── development-guide.md
+│
+├── scripts/
+│   ├── setup.sh
+│   ├── seed_demo_data.py
+│   └── generate_embeddings.py
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── deploy.yml
+│
+├── .gitignore
+├── README.md
+└── LICENSE
+```
+
+---
+
+## Database Schema (ER Diagram)
+
+```mermaid
+erDiagram
+    USERS {
+        uuid id PK
+        string clerk_id UK
+        string email UK
+        string full_name
+        string role "admin | engineer | manager | auditor | viewer"
+        string department
+        string avatar_url
+        jsonb preferences
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    DOCUMENTS {
+        uuid id PK
+        uuid user_id FK
+        string title
+        string original_filename
+        string file_path
+        string file_type "pdf | docx | xlsx | csv | txt | image"
+        bigint file_size
+        string category "sop | manual | inspection | maintenance | audit | report | regulation"
+        string[] tags
+        string status "uploading | processing | ready | failed"
+        float processing_progress
+        jsonb metadata
+        text extracted_text
+        int chunk_count
+        timestamp uploaded_at
+        timestamp processed_at
+    }
+
+    CHUNKS {
+        uuid id PK
+        uuid document_id FK
+        int chunk_index
+        text content
+        int token_count
+        string embedding_id "ChromaDB reference"
+        jsonb metadata
+        timestamp created_at
+    }
+
+    EQUIPMENT {
+        uuid id PK
+        string equipment_id UK "Plant tag, e.g. P-101"
+        string name
+        string type "pump | valve | motor | compressor | heat_exchanger | vessel"
+        string department
+        string location
+        string criticality "critical | high | medium | low"
+        string status "running | stopped | maintenance | failed"
+        date install_date
+        date last_maintenance
+        date next_maintenance
+        jsonb specifications
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    INCIDENTS {
+        uuid id PK
+        uuid equipment_id FK
+        uuid reported_by FK
+        string incident_number UK
+        string title
+        text description
+        string severity "critical | major | minor | observation"
+        string status "open | investigating | resolved | closed"
+        text root_cause
+        text corrective_action
+        date incident_date
+        date resolved_date
+        jsonb metadata
+        timestamp created_at
+    }
+
+    MAINTENANCE_RECORDS {
+        uuid id PK
+        uuid equipment_id FK
+        uuid assigned_to FK
+        string work_order UK
+        string type "preventive | corrective | predictive | breakdown"
+        string priority "urgent | high | medium | low"
+        string status "scheduled | in_progress | completed | overdue"
+        text description
+        text findings
+        text actions_taken
+        date scheduled_date
+        date completed_date
+        float cost
+        float downtime_hours
+        jsonb parts_used
+        timestamp created_at
+    }
+
+    COMPLIANCE_RECORDS {
+        uuid id PK
+        uuid document_id FK
+        uuid auditor_id FK
+        string regulation_ref
+        string standard "iso_9001 | iso_14001 | iso_45001 | osha | api | asme | nfpa"
+        string category
+        string status "compliant | non_compliant | partially | pending"
+        float score
+        text[] findings
+        text[] violations
+        text[] recommendations
+        date audit_date
+        date next_audit_date
+        timestamp created_at
+    }
+
+    CONVERSATIONS {
+        uuid id PK
+        uuid user_id FK
+        string title
+        string context_type "general | equipment | maintenance | compliance | document"
+        uuid context_id "nullable — links to relevant entity"
+        int message_count
+        timestamp last_message_at
+        timestamp created_at
+    }
+
+    MESSAGES {
+        uuid id PK
+        uuid conversation_id FK
+        string role "user | assistant | system"
+        text content
+        jsonb citations "array of document_id + chunk_id + text"
+        float confidence_score
+        string[] suggested_questions
+        jsonb metadata
+        timestamp created_at
+    }
+
+    KNOWLEDGE_NODES {
+        uuid id PK
+        string node_type "equipment | person | department | location | process | sop | regulation | incident"
+        string name
+        jsonb properties
+        uuid source_document_id FK
+        string neo4j_id "Reference to Neo4j node"
+        timestamp created_at
+    }
+
+    KNOWLEDGE_EDGES {
+        uuid id PK
+        uuid source_node_id FK
+        uuid target_node_id FK
+        string relationship "maintained_by | located_in | governed_by | caused_by | related_to | part_of | inspected_by"
+        jsonb properties
+        uuid source_document_id FK
+        float confidence
+        timestamp created_at
+    }
+
+    USERS ||--o{ DOCUMENTS : uploads
+    USERS ||--o{ CONVERSATIONS : owns
+    USERS ||--o{ INCIDENTS : reports
+    USERS ||--o{ MAINTENANCE_RECORDS : assigned_to
+    USERS ||--o{ COMPLIANCE_RECORDS : audits
+    DOCUMENTS ||--o{ CHUNKS : contains
+    DOCUMENTS ||--o{ KNOWLEDGE_NODES : extracted_from
+    DOCUMENTS ||--o{ KNOWLEDGE_EDGES : derived_from
+    DOCUMENTS ||--o{ COMPLIANCE_RECORDS : audited_in
+    EQUIPMENT ||--o{ INCIDENTS : has
+    EQUIPMENT ||--o{ MAINTENANCE_RECORDS : has
+    CONVERSATIONS ||--o{ MESSAGES : contains
+    KNOWLEDGE_NODES ||--o{ KNOWLEDGE_EDGES : source
+    KNOWLEDGE_NODES ||--o{ KNOWLEDGE_EDGES : target
+```
+
+---
+
+## API Design
+
+### Base URL: `/api/v1`
+
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/auth/verify` | Verify Clerk JWT, create/sync user |
+| `GET` | `/auth/me` | Get current user profile |
+| `PUT` | `/auth/me` | Update user profile |
+
+### Documents
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/documents/upload` | Upload document(s) — multipart |
+| `GET` | `/documents` | List documents (paginated, filterable) |
+| `GET` | `/documents/{id}` | Get document detail + metadata |
+| `GET` | `/documents/{id}/preview` | Get document preview / extracted text |
+| `GET` | `/documents/{id}/chunks` | Get document chunks |
+| `DELETE` | `/documents/{id}` | Delete document + associated data |
+| `PATCH` | `/documents/{id}` | Update tags, category, metadata |
+| `GET` | `/documents/{id}/status` | Get processing status |
+
+### AI Chat
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/chat/conversations` | Create new conversation |
+| `GET` | `/chat/conversations` | List user conversations |
+| `GET` | `/chat/conversations/{id}` | Get conversation with messages |
+| `DELETE` | `/chat/conversations/{id}` | Delete conversation |
+| `POST` | `/chat/conversations/{id}/messages` | Send message, get AI response |
+| `WS` | `/chat/ws/{conversation_id}` | WebSocket for streaming responses |
+
+### Knowledge Graph
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/knowledge-graph` | Get full graph (nodes + edges) |
+| `GET` | `/knowledge-graph/nodes` | List nodes (filterable by type) |
+| `GET` | `/knowledge-graph/nodes/{id}` | Get node with relationships |
+| `GET` | `/knowledge-graph/search` | Search graph by entity name |
+| `GET` | `/knowledge-graph/stats` | Graph statistics |
+
+### Equipment
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/equipment` | List all equipment |
+| `GET` | `/equipment/{id}` | Equipment detail with history |
+| `POST` | `/equipment` | Create equipment record |
+| `PUT` | `/equipment/{id}` | Update equipment |
+| `GET` | `/equipment/{id}/health` | AI-generated health assessment |
+
+### Maintenance Intelligence
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/maintenance` | List maintenance records |
+| `POST` | `/maintenance` | Create maintenance record |
+| `GET` | `/maintenance/{id}` | Get maintenance detail |
+| `GET` | `/maintenance/intelligence` | AI maintenance insights |
+| `GET` | `/maintenance/predictions` | Failure predictions (simulated) |
+| `GET` | `/maintenance/overdue` | Overdue maintenance items |
+
+### Compliance Intelligence
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/compliance` | List compliance records |
+| `POST` | `/compliance/analyze` | Run compliance analysis on document |
+| `GET` | `/compliance/score` | Overall compliance score |
+| `GET` | `/compliance/violations` | Active violations |
+| `GET` | `/compliance/audit-summary` | AI-generated audit summary |
+
+### Analytics
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/analytics/dashboard` | Dashboard summary cards |
+| `GET` | `/analytics/incidents` | Incident trends |
+| `GET` | `/analytics/equipment-health` | Equipment health rankings |
+| `GET` | `/analytics/compliance-trend` | Compliance trend over time |
+| `GET` | `/analytics/maintenance-trend` | Maintenance trend |
+| `GET` | `/analytics/document-growth` | Document ingestion over time |
+
+### Search
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/search` | Global semantic + keyword search |
+| `GET` | `/search/semantic` | Pure vector similarity search |
+| `GET` | `/search/filters` | Available filter options |
+
+---
+
+## Proposed Changes
+
+### Phase 1 — Foundation & Infrastructure (Current Sprint)
+
+> Core project scaffolding, database, Docker, and base UI shell
+
+#### Frontend
+
+##### [NEW] Next.js 15 project initialization
+- Initialize with TypeScript, Tailwind CSS, App Router, ESLint
+- Install and configure: shadcn/ui, framer-motion, recharts, react-flow, zustand, axios, react-query
+- Set up design system: color palette, typography (Inter + JetBrains Mono), dark mode theme
+- Create complete CSS design tokens and global styles
+
+##### [NEW] Layout shell
+- `(platform)/layout.tsx` — Collapsible sidebar, top navbar, command palette
+- Sidebar with navigation: Dashboard, Documents, Chat, Knowledge Graph, Maintenance, Compliance, Analytics, Settings
+- User avatar + dropdown, notification bell, global search trigger
+- Smooth page transitions (Framer Motion)
+
+##### [NEW] Landing page
+- Hero section with animated gradient background
+- Feature cards with glassmorphism
+- Social proof / target audience section
+- CTA buttons → Sign in / Get Started
+- Responsive, visually stunning
+
+#### Backend
+
+##### [NEW] FastAPI project setup
+- Clean architecture: api → services → repositories → infrastructure
+- Pydantic BaseSettings for config
+- SQLAlchemy 2.0 async engine + session factory
+- Alembic migrations setup
+- CORS, error handlers, logging middleware
+- Health check endpoint
+- Swagger/OpenAPI customization
+
+##### [NEW] Database models + initial migration
+- All 10 tables from the schema above
+- UUID primary keys, proper indexes, constraints
+- Enums for status/type/severity fields
+
+##### [NEW] Auth middleware
+- Clerk JWT verification
+- User sync (create on first login)
+- RBAC decorator for role-based access
+
+#### Infrastructure
+
+##### [NEW] Docker Compose
+- Services: frontend, backend, postgres, redis, chromadb, neo4j
+- Dev and production compose variants
+- Volume mounts, health checks, environment variables
+
+---
+
+### Phase 2 — Document Management & Processing Pipeline
+
+##### [NEW] Document upload UI
+- Drag-and-drop zone with progress indicators
+- File type validation (PDF, DOCX, XLSX, CSV, TXT, images)
+- Upload history with status badges
+- Tag and category assignment
+
+##### [NEW] Document manager page
+- Grid/list view toggle
+- Search, filter by type/category/date
+- Document preview modal
+- Delete with confirmation
+- Metadata editing
+
+##### [NEW] Document processing pipeline (Backend)
+- OCR: PyMuPDF for native PDFs, PaddleOCR/Tesseract for scanned images
+- Text extraction and cleaning
+- Semantic chunking (sentence-boundary aware, 512 token chunks with overlap)
+- Embedding generation (Sentence Transformers `all-MiniLM-L6-v2`)
+- Store embeddings in ChromaDB with metadata
+- Celery async task pipeline with progress tracking
+
+---
+
+### Phase 3 — AI Chat & RAG Pipeline
+
+##### [NEW] Chat interface
+- ChatGPT-style message list (user/assistant bubbles)
+- Streaming response animation
+- Source citations panel (expandable)
+- Confidence score badge
+- Suggested follow-up questions
+- Conversation sidebar (history)
+- Copy / download response
+
+##### [NEW] RAG pipeline (Backend)
+- Query embedding → ChromaDB vector search (top-K=10)
+- Hybrid retrieval: dense + keyword BM25
+- Reranking: cross-encoder scoring
+- Context assembly with citation tracking
+- LLM generation (OpenAI GPT-4) with streaming (SSE)
+- Response post-processing: extract citations, confidence, suggestions
+
+---
+
+### Phase 4 — Knowledge Graph
+
+##### [NEW] Knowledge graph extraction
+- NER pipeline: extract Equipment, People, Departments, Locations, Processes, SOPs, Regulations
+- Relationship extraction via LLM prompting
+- Store nodes and edges in Neo4j + PostgreSQL mirror
+- Triggered automatically after document processing
+
+##### [NEW] Knowledge graph visualization
+- React Flow interactive graph
+- Node types with distinct colors/icons
+- Edge labels showing relationship type
+- Click node → detail panel with linked documents
+- Filter by node type
+- Zoom, pan, layout controls
+
+---
+
+### Phase 5 — Maintenance & Compliance Intelligence
+
+##### [NEW] Maintenance intelligence page
+- Equipment health cards with status indicators
+- Failure history timeline
+- AI-generated root cause analysis
+- Maintenance recommendations panel
+- Risk level matrix (heatmap)
+- Overdue maintenance alerts
+- Simulated remaining useful life chart
+
+##### [NEW] Compliance intelligence page
+- Compliance score gauge chart
+- Regulation coverage matrix
+- Violation list with severity
+- AI-generated audit summary
+- Gap analysis: regulation vs. actual inspections
+- Compliance trend chart
+
+---
+
+### Phase 6 — Dashboard, Analytics & Search
+
+##### [NEW] Dashboard page
+- Summary cards: Total Documents, Equipment, Incidents, Compliance Score, Maintenance Due, Active Users
+- Charts: Incident Trends (area), Equipment Health (bar), Document Categories (donut), Compliance Trend (line), Maintenance Trend (stacked bar)
+- Recent uploads feed
+- Quick actions panel
+- All charts animated on load
+
+##### [NEW] Analytics page
+- Incident heatmap (calendar-style)
+- Equipment ranking table
+- Most common failures bar chart
+- Monthly maintenance cost/count
+- Compliance trend line
+- Knowledge coverage radar chart
+- Document growth area chart
+
+##### [NEW] Global search
+- Command-palette style (⌘K)
+- Semantic search backed by vector store
+- Result categories: Documents, Equipment, Conversations, Knowledge Nodes
+- Filters: equipment, date, engineer, department, document type
+
+---
+
+### Phase 7 — Polish, Testing & Deployment
+
+- Seed data scripts with realistic industrial data (pumps, valves, SOPs, incidents)
+- End-to-end testing
+- Performance optimization (React Query caching, lazy loading)
+- README with architecture diagrams, installation guide, deployment guide
+- GitHub Actions CI/CD pipeline
+- Docker production build
+- API documentation finalization
+
+---
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Clerk Authentication**: The plan uses Clerk for auth. You'll need a Clerk account and API keys. If you prefer a different auth provider (e.g., NextAuth, Supabase Auth), let me know.
+
+> [!IMPORTANT]
+> **OpenAI API Key**: The RAG pipeline uses OpenAI GPT-4 for generation. You'll need an OpenAI API key. For demo/hackathon mode, I can implement a mock AI service that returns realistic simulated responses without requiring any API keys.
+
+> [!IMPORTANT]
+> **External Services**: Neo4j and ChromaDB require separate processes. Docker Compose will handle orchestration, but for local development without Docker you'll need them installed or I can use lightweight alternatives (e.g., in-memory graph, local ChromaDB).
+
+## Open Questions
+
+> [!IMPORTANT]
+> **Demo Mode vs. Live AI**: Should I implement a full demo/mock mode (simulated AI responses, pre-seeded data, no external API keys needed) so the platform works out-of-the-box for a hackathon demo? This would let the UI be fully functional without requiring OpenAI, Neo4j, etc.
+
+> [!IMPORTANT]
+> **Which phase to start building first?** I recommend starting with **Phase 1 (Foundation)** → then **Phase 2 (Documents)** → **Phase 3 (Chat/RAG)** since these form the core value proposition. Should I proceed with Phase 1?
+
+> [!WARNING]
+> **TailwindCSS Version**: You specified Tailwind CSS. The latest is v4 (released 2025), but shadcn/ui works best with Tailwind v3.x currently. I'll use **Tailwind CSS v3** with shadcn/ui for maximum compatibility unless you prefer v4.
+
+---
+
+## Verification Plan
+
+### Automated Tests
+- `npm run lint` + `npm run type-check` for frontend
+- `pytest` for backend unit and integration tests
+- `alembic upgrade head` to verify migrations
+- Docker Compose health checks for all services
+
+### Manual Verification
+- Visual inspection of every page on desktop and mobile viewports
+- Document upload → processing → chat Q&A end-to-end flow
+- Knowledge graph visualization with sample data
+- Dashboard charts rendering with seed data
+- API documentation via Swagger UI at `/docs`
