@@ -160,9 +160,9 @@ class LLMGateway:
                 "confidence_score": 0.85,
                 "suggested_questions": [],
             }
-        except Exception as e:
-            logger.error("LLM generation failed", error=str(e))
-            raise AIServiceError(f"LLM generation failed: {e}")
+        except Exception as err:
+            logger.error("LLM generation failed", error=str(err))
+            raise AIServiceError(f"LLM generation failed: {err}") from err
 
     async def generate_stream(
         self,
@@ -218,8 +218,8 @@ class LLMGateway:
                 input=texts,
             )
             return [item.embedding for item in response.data]
-        except Exception as e:
-            raise AIServiceError(f"Embedding generation failed: {e}")
+        except Exception as err:
+            raise AIServiceError(f"Embedding generation failed: {err}") from err
 
     def _generate_demo_response(self, query: str) -> dict[str, Any]:
         """Generate a contextual demo response based on query keywords."""

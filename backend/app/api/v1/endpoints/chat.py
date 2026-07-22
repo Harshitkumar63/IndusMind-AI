@@ -12,7 +12,9 @@ from typing import Any
 
 from fastapi import APIRouter, Depends
 
+from app.ai.rag.pipeline import rag_pipeline
 from app.api.v1.deps import get_current_user
+from app.core.config import get_settings
 from app.schemas import (
     ConversationCreate,
     ConversationDetailResponse,
@@ -157,9 +159,6 @@ async def get_conversation(
         ],
     }
 
-
-from app.ai.rag.pipeline import rag_pipeline
-from app.core.config import get_settings
 
 settings = get_settings()
 

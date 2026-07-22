@@ -65,16 +65,16 @@ def decode_token(token: str) -> dict[str, Any]:
             algorithms=["HS256"],
             issuer=settings.APP_NAME,
         )
-    except jwt.ExpiredSignatureError:
+    except jwt.ExpiredSignatureError as err:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token has expired",
-        )
-    except jwt.InvalidTokenError:
+        ) from err
+    except jwt.InvalidTokenError as err:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",
-        )
+        ) from err
 
 
 # ─── Role-Based Access Control ─────────────────────────────────
