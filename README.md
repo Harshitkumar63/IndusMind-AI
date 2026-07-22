@@ -11,7 +11,7 @@
 
 **Transform thousands of PDFs, SOPs, inspection reports, and maintenance logs into structured, searchable intelligence.**
 
-Ask questions. Get answers with citations. Predict failures. Ensure compliance.
+*IndusMind AI is an enterprise-grade platform that bridges the gap between disconnected industrial data and actionable operational intelligence. Using Retrieval-Augmented Generation (RAG) and Knowledge Graphs, it empowers engineers to ask questions, predict failures, and ensure compliance seamlessly.*
 
 <br/>
 
@@ -94,6 +94,16 @@ IndusMind AI transforms this chaos into an **intelligent, queryable knowledge ba
 
 ---
 
+## 🎮 Live Demo
+
+Experience IndusMind AI instantly without complex setup. The frontend runs in **Demo Mode** by default with pre-loaded industrial data.
+
+[![Try Demo](https://img.shields.io/badge/Launch_Local_Demo-Run_Now-412991?style=for-the-badge&logo=vercel)](#-quick-start)
+
+> **No API Keys Required:** In Demo Mode, the platform uses intelligent heuristics to simulate RAG responses and Knowledge Graph interactions based on a realistic industrial dataset (Pump P-101 maintenance, OSHA compliance).
+
+---
+
 ## ✨ Features
 
 <table>
@@ -170,45 +180,94 @@ IndusMind AI transforms this chaos into an **intelligent, queryable knowledge ba
 
 ## 🏗️ Architecture
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                     PRESENTATION LAYER                           │
-│                                                                  │
-│  Next.js 15 · React 19 · TypeScript · Tailwind CSS              │
-│  Landing Page → Platform Layout → 8 Feature Pages               │
-└──────────────────────────┬───────────────────────────────────────┘
-                           │ REST API (Axios)
-┌──────────────────────────┼───────────────────────────────────────┐
-│                     APPLICATION LAYER                             │
-│                                                                  │
-│  FastAPI (Uvicorn ASGI) · JWT Auth · CORS · RBAC                 │
-│  /auth  /documents  /chat  /knowledge-graph  /equipment          │
-│  /maintenance  /compliance  /analytics  /search                  │
-└──────────────────────────┼───────────────────────────────────────┘
-                           │
-┌──────────────────────────┼───────────────────────────────────────┐
-│                     SERVICE LAYER                                 │
-│                                                                  │
-│  DocumentService · ChatService · KnowledgeGraphService           │
-│  AnalyticsService · MaintenanceService · ComplianceService       │
-└──────────────────────────┼───────────────────────────────────────┘
-                           │
-┌──────────────────────────┼───────────────────────────────────────┐
-│                     AI PIPELINE                                   │
-│                                                                  │
-│  OCR/Extract → Chunk → Embed → Vector Store → RAG → Cite        │
-│  NER → Knowledge Graph (Neo4j)                                   │
-│  LLM Gateway (OpenAI GPT-4o / Demo Fallback)                    │
-└──────────────────────────┼───────────────────────────────────────┘
-                           │
-┌──────────────────────────┼───────────────────────────────────────┐
-│                     INFRASTRUCTURE                                │
-│                                                                  │
-│  PostgreSQL 16 · ChromaDB · Neo4j 5 · Redis 7 · Celery · S3     │
-└──────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Presentation Layer
+        UI[Next.js 15 Frontend<br/>React 19, Tailwind CSS]
+    end
+
+    subgraph Application Layer
+        API[FastAPI Backend<br/>REST API, Auth, RBAC]
+    end
+
+    subgraph Domain & Service Layer
+        DocSvc[Document Service]
+        ChatSvc[Chat & RAG Service]
+        GraphSvc[Knowledge Graph Service]
+    end
+
+    subgraph AI Pipeline
+        AIPipe[AI Orchestrator<br/>OCR, Chunking, NER]
+        LLM[LLM Gateway<br/>OpenAI GPT-4o]
+    end
+
+    subgraph Infrastructure
+        PG[(PostgreSQL<br/>Relational DB)]
+        CH[(ChromaDB<br/>Vector Store)]
+        N4J[(Neo4j<br/>Graph DB)]
+        RED[(Redis<br/>Celery Queue)]
+    end
+
+    UI -->|REST / HTTP| API
+    API --> DocSvc & ChatSvc & GraphSvc
+    DocSvc --> AIPipe
+    ChatSvc --> AIPipe
+    ChatSvc --> LLM
+    AIPipe --> PG & CH & N4J
+    API --> RED
 ```
 
 > 📐 Detailed architecture documentation: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+> 🗄️ Database ER diagrams & schema: [`docs/DATABASE.md`](docs/DATABASE.md)
+
+### Database Entity-Relationship Diagram
+
+```mermaid
+erDiagram
+    User ||--o{ Document : "uploads"
+    User ||--o{ Conversation : "creates"
+    Conversation ||--o{ Message : "contains"
+    Document ||--o{ Chunk : "split_into"
+    Equipment ||--o{ Incident : "has"
+    Equipment ||--o{ Maintenance : "requires"
+    
+    User {
+        UUID id PK
+        string email
+        string role
+    }
+    Document {
+        UUID id PK
+        UUID user_id FK
+        string title
+        string status
+    }
+    Chunk {
+        UUID id PK
+        UUID document_id FK
+        string content
+    }
+    Equipment {
+        UUID id PK
+        string tag
+        string health_score
+    }
+    Incident {
+        UUID id PK
+        UUID equipment_id FK
+        string severity
+    }
+    Maintenance {
+        UUID id PK
+        UUID equipment_id FK
+        string type
+    }
+    Compliance {
+        UUID id PK
+        string regulation
+        float score
+    }
+```
 
 ---
 
@@ -433,22 +492,24 @@ Base URL: `http://localhost:8000/api/v1`
 
 ## 🤖 AI Pipeline
 
-```
-Document Upload → Text Extraction → Semantic Chunking → Embedding Generation
-                        ↓                                       ↓
-                  Entity Extraction                      ChromaDB Storage
-                        ↓                                       ↓
-                  Knowledge Graph                         User Query
-                  (Neo4j Storage)                              ↓
-                                                       Query Embedding
-                                                             ↓
-                                                      Vector Search (Top-K)
-                                                             ↓
-                                                      Context Assembly
-                                                             ↓
-                                                      LLM Generation (GPT-4o)
-                                                             ↓
-                                                      Response + Citations
+```mermaid
+flowchart TD
+    Doc([Document Upload]) --> OCR[OCR & Text Extraction]
+    OCR --> Chunk[Semantic Chunking]
+    
+    Chunk --> Embed[Embedding Generation]
+    Chunk --> NER[Entity Extraction]
+    
+    Embed --> Chroma[(ChromaDB)]
+    NER --> Neo4j[(Neo4j)]
+    
+    Query([User Query]) --> QEmbed[Query Embedding]
+    QEmbed --> VSearch[Vector Search]
+    Chroma -.->|Similarity| VSearch
+    
+    VSearch --> Context[Context Assembly]
+    Context --> LLM[LLM Generation<br/>GPT-4o]
+    LLM --> Response([Response + Citations])
 ```
 
 | Stage | Technology | Details |

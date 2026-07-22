@@ -8,35 +8,41 @@
 
 IndusMind AI follows a **Clean Architecture** pattern with clear separation of concerns across four distinct layers. Each layer has a well-defined responsibility and communicates only with its adjacent layers.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     PRESENTATION LAYER                          │
-│                                                                 │
-│  Next.js 15 • React 19 • TypeScript • Tailwind CSS              │
-│  Landing Page → Platform Layout → Feature Pages                 │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ REST API (Axios HTTP Client)
-┌──────────────────────────┼──────────────────────────────────────┐
-│                     APPLICATION LAYER                            │
-│                                                                 │
-│  FastAPI (Uvicorn ASGI) • JWT Auth • CORS • Rate Limiting       │
-│  9 API Modules: auth, documents, chat, knowledge-graph,         │
-│  equipment, maintenance, compliance, analytics, search          │
-└──────────────────────────┼──────────────────────────────────────┘
-                           │
-┌──────────────────────────┼──────────────────────────────────────┐
-│                     DOMAIN / SERVICE LAYER                       │
-│                                                                 │
-│  Business Logic • Domain Models • Service Classes               │
-│  DocumentService • ChatService • KnowledgeGraphService          │
-│  AnalyticsService • AI Pipeline (OCR → RAG → NER)               │
-└──────────────────────────┼──────────────────────────────────────┘
-                           │
-┌──────────────────────────┼──────────────────────────────────────┐
-│                     INFRASTRUCTURE LAYER                         │
-│                                                                 │
-│  PostgreSQL │ ChromaDB │ Neo4j │ Redis │ File Storage │ OpenAI  │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Presentation Layer
+        UI[Next.js 15 Frontend<br/>React 19, Tailwind CSS]
+    end
+
+    subgraph Application Layer
+        API[FastAPI Backend<br/>REST API, Auth, RBAC]
+    end
+
+    subgraph Domain & Service Layer
+        DocSvc[Document Service]
+        ChatSvc[Chat & RAG Service]
+        GraphSvc[Knowledge Graph Service]
+    end
+
+    subgraph AI Pipeline
+        AIPipe[AI Orchestrator<br/>OCR, Chunking, NER]
+        LLM[LLM Gateway<br/>OpenAI GPT-4o]
+    end
+
+    subgraph Infrastructure
+        PG[(PostgreSQL)]
+        CH[(ChromaDB)]
+        N4J[(Neo4j)]
+        RED[(Redis)]
+    end
+
+    UI -->|REST / HTTP| API
+    API --> DocSvc & ChatSvc & GraphSvc
+    DocSvc --> AIPipe
+    ChatSvc --> AIPipe
+    ChatSvc --> LLM
+    AIPipe --> PG & CH & N4J
+    API --> RED
 ```
 
 ---
@@ -103,24 +109,22 @@ backend/app/
 
 ### Request Flow
 
-```
-Client Request
-     │
-     ▼
-  FastAPI Router  →  Validates input (Pydantic)
-     │
-     ▼
-  API Endpoint    →  Extracts params, calls service
-     │
-     ▼
-  Service Layer   →  Business logic, orchestration
-     │
-     ├──▶ AI Pipeline      →  OCR, embeddings, RAG, NER
-     ├──▶ Infrastructure   →  Database, cache, vector store
-     └──▶ Domain Models    →  ORM queries, data mapping
-     │
-     ▼
-  Response        →  Serialized via Pydantic schema
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Router as FastAPI Router
+    participant Endpoint as API Endpoint
+    participant Service as Service Layer
+    participant Infra as Infrastructure/AI
+
+    Client->>Router: HTTP Request
+    Router->>Endpoint: Validates input (Pydantic)
+    Endpoint->>Service: Extracts params, calls service
+    Service->>Infra: Executes Business Logic
+    Infra-->>Service: Returns Data
+    Service-->>Endpoint: Maps to Domain Models
+    Endpoint-->>Router: Serialized via Pydantic
+    Router-->>Client: HTTP Response
 ```
 
 ---
@@ -166,54 +170,31 @@ The frontend uses a CSS custom properties-based design system defined in `global
 
 ### Document Ingestion Pipeline
 
-```
-User uploads PDF
-       │
-       ▼
-  File Storage (local/S3)
-       │
-       ▼
-  Celery Worker (async)
-       │
-       ├──▶ OCR/Text Extraction (PyMuPDF / Tesseract)
-       │
-       ├──▶ Semantic Chunking (512 tokens, 50 overlap)
-       │
-       ├──▶ Embedding Generation (Sentence Transformers)
-       │         │
-       │         ▼
-       │    ChromaDB (vector storage)
-       │
-       ├──▶ NER Entity Extraction (regex-based)
-       │         │
-       │         ▼
-       │    Neo4j (knowledge graph)
-       │
-       └──▶ Metadata Update
-                 │
-                 ▼
-            PostgreSQL (document record)
+```mermaid
+flowchart TD
+    User[User] -->|Uploads PDF| Storage[File Storage<br/>local/S3]
+    Storage --> Celery[Celery Worker<br/>Async]
+    
+    Celery --> OCR[OCR & Text Extraction<br/>PyMuPDF/Tesseract]
+    Celery --> Chunk[Semantic Chunking<br/>512 tokens]
+    Celery --> Embed[Embedding Generation<br/>Sentence Transformers]
+    Celery --> NER[NER Entity Extraction<br/>Regex-based]
+    Celery --> Meta[Metadata Update]
+    
+    Embed --> Chroma[(ChromaDB<br/>Vector Storage)]
+    NER --> Neo4j[(Neo4j<br/>Knowledge Graph)]
+    Meta --> PG[(PostgreSQL<br/>Document Record)]
 ```
 
 ### RAG Query Pipeline
 
-```
-User Question
-       │
-       ▼
-  Query Embedding (Sentence Transformers)
-       │
-       ▼
-  Vector Similarity Search (ChromaDB, top-K)
-       │
-       ▼
-  Context Assembly (source documents)
-       │
-       ▼
-  LLM Generation (GPT-4o / demo fallback)
-       │
-       ▼
-  Response + Citations + Confidence Score
+```mermaid
+flowchart TD
+    Query([User Question]) --> QEmbed[Query Embedding<br/>Sentence Transformers]
+    QEmbed --> VSearch[Vector Similarity Search<br/>ChromaDB, top-K]
+    VSearch --> Context[Context Assembly<br/>Source Documents]
+    Context --> LLM[LLM Generation<br/>GPT-4o / Demo Fallback]
+    LLM --> Response([Response + Citations + Confidence])
 ```
 
 ---
@@ -235,23 +216,20 @@ User Question
 
 ## Infrastructure Topology
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  Frontend   │     │   Backend   │     │   Celery    │
-│  (Next.js)  │────▶│  (FastAPI)  │────▶│  (Worker)   │
-│  :3000      │     │  :8000      │     │             │
-└─────────────┘     └──────┬──────┘     └──────┬──────┘
-                           │                    │
-            ┌──────────────┼──────────────┐     │
-            │              │              │     │
-       ┌────▼────┐   ┌────▼────┐   ┌────▼────┐ │
-       │PostgreSQL│   │ ChromaDB│   │  Neo4j  │ │
-       │  :5432   │   │  :8001  │   │  :7474  │ │
-       └─────────┘   └─────────┘   └─────────┘ │
-                                          ┌─────▼────┐
-                                          │  Redis   │
-                                          │  :6379   │
-                                          └──────────┘
+```mermaid
+graph TD
+    FE[Frontend<br/>Next.js :3000] --> BE[Backend<br/>FastAPI :8000]
+    BE --> CW[Celery Worker]
+    
+    BE --> PG[(PostgreSQL<br/>:5432)]
+    BE --> CH[(ChromaDB<br/>:8001)]
+    BE --> N4J[(Neo4j<br/>:7474)]
+    BE --> RED[(Redis<br/>:6379)]
+    
+    CW --> PG
+    CW --> CH
+    CW --> N4J
+    CW --> RED
 ```
 
 ---

@@ -8,41 +8,24 @@
 
 The IndusMind AI pipeline transforms raw industrial documents into structured, queryable intelligence through a multi-stage processing pipeline.
 
-```
-┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-│ Document │───▶│   OCR/   │───▶│ Semantic │───▶│Embedding │───▶│ Vector   │
-│  Upload  │    │  Extract │    │ Chunking │    │Generation│    │ Storage  │
-└──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘
-                     │                                              │
-                     ▼                                              ▼
-                ┌──────────┐                                   ┌──────────┐
-                │   NER    │                                   │  Query   │
-                │ Entity   │                                   │Embedding │
-                │Extraction│                                   └────┬─────┘
-                └────┬─────┘                                        │
-                     │                                              ▼
-                     ▼                                         ┌──────────┐
-                ┌──────────┐                                   │ Retrieve │
-                │Knowledge │                                   │  Top-K   │
-                │  Graph   │                                   └────┬─────┘
-                │  (Neo4j) │                                        │
-                └──────────┘                                        ▼
-                                                               ┌──────────┐
-                                                               │ Context  │
-                                                               │ Assembly │
-                                                               └────┬─────┘
-                                                                    │
-                                                                    ▼
-                                                               ┌──────────┐
-                                                               │   LLM    │
-                                                               │Generation│
-                                                               └────┬─────┘
-                                                                    │
-                                                                    ▼
-                                                               ┌──────────┐
-                                                               │Response +│
-                                                               │Citations │
-                                                               └──────────┘
+```mermaid
+flowchart TD
+    Doc([Document Upload]) --> OCR[OCR & Text Extraction]
+    OCR --> Chunk[Semantic Chunking]
+    
+    Chunk --> Embed[Embedding Generation]
+    Chunk --> NER[Entity Extraction]
+    
+    Embed --> Chroma[(ChromaDB)]
+    NER --> Neo4j[(Neo4j)]
+    
+    Query([User Query]) --> QEmbed[Query Embedding]
+    QEmbed --> VSearch[Vector Search]
+    Chroma -.->|Similarity| VSearch
+    
+    VSearch --> Context[Context Assembly]
+    Context --> LLM[LLM Generation<br/>GPT-4o]
+    LLM --> Response([Response + Citations])
 ```
 
 ---

@@ -18,71 +18,105 @@ IndusMind AI uses a **polyglot persistence** strategy with three specialized dat
 
 ## Entity-Relationship Diagram
 
-```
-┌─────────────────┐         ┌──────────────────┐         ┌──────────────────┐
-│      User       │         │    Document      │         │      Chunk       │
-├─────────────────┤         ├──────────────────┤         ├──────────────────┤
-│ id (PK, UUID)   │    1:M  │ id (PK, UUID)    │    1:M  │ id (PK, UUID)    │
-│ email (unique)  │────────▶│ uploaded_by (FK)  │────────▶│ document_id (FK) │
-│ full_name       │         │ title             │         │ content (text)   │
-│ role (enum)     │         │ file_type         │         │ chunk_index      │
-│ department      │         │ category (enum)   │         │ embedding_id     │
-│ hashed_password │         │ status (enum)     │         │ token_count      │
-│ is_active       │         │ file_path         │         │ metadata (JSON)  │
-│ created_at      │         │ file_size         │         │ created_at       │
-│ updated_at      │         │ page_count        │         └──────────────────┘
-└─────────────────┘         │ chunk_count       │
-        │                   │ processing_time   │
-        │                   │ created_at        │
-        │                   │ updated_at        │
-        │                   └──────────────────┘
-        │
-        │           ┌──────────────────┐         ┌──────────────────┐
-        │      1:M  │  Conversation    │    1:M  │    Message       │
-        └──────────▶├──────────────────┤────────▶├──────────────────┤
-                    │ id (PK, UUID)    │         │ id (PK, UUID)    │
-                    │ user_id (FK)     │         │ conversation_id  │
-                    │ title            │         │ role (enum)      │
-                    │ created_at       │         │ content (text)   │
-                    │ updated_at       │         │ citations (JSON) │
-                    └──────────────────┘         │ confidence_score │
-                                                 │ created_at       │
-                                                 └──────────────────┘
-
-┌──────────────────┐         ┌──────────────────┐         ┌──────────────────┐
-│   Equipment      │         │    Incident      │         │  Maintenance     │
-├──────────────────┤    1:M  ├──────────────────┤    1:M  ├──────────────────┤
-│ id (PK, UUID)    │────────▶│ id (PK, UUID)    │────────▶│ id (PK, UUID)    │
-│ tag (unique)     │         │ equipment_id (FK)│         │ equipment_id (FK)│
-│ name             │         │ title            │         │ title            │
-│ type (enum)      │         │ severity (enum)  │         │ type (enum)      │
-│ category         │         │ status (enum)    │         │ priority (enum)  │
-│ manufacturer     │         │ description      │         │ status (enum)    │
-│ health_score     │         │ root_cause       │         │ scheduled_date   │
-│ status (enum)    │         │ occurred_at      │         │ completed_date   │
-│ location         │         │ resolved_at      │         │ cost             │
-│ install_date     │         │ created_at       │         │ notes            │
-│ last_maintenance │         └──────────────────┘         │ created_at       │
-│ created_at       │                                      └──────────────────┘
-└──────────────────┘
-
-┌──────────────────┐
-│   Compliance     │
-├──────────────────┤
-│ id (PK, UUID)    │
-│ regulation       │
-│ standard (enum)  │
-│ section          │
-│ score            │
-│ status (enum)    │
-│ violations       │
-│ last_audit_date  │
-│ next_audit_date  │
-│ auditor          │
-│ notes            │
-│ created_at       │
-│ updated_at       │
-└──────────────────┘
+```mermaid
+erDiagram
+    User ||--o{ Document : "uploads"
+    User ||--o{ Conversation : "creates"
+    Conversation ||--o{ Message : "contains"
+    Document ||--o{ Chunk : "split_into"
+    Equipment ||--o{ Incident : "has"
+    Equipment ||--o{ Maintenance : "requires"
+    
+    User {
+        UUID id PK
+        string email UK
+        string full_name
+        string role
+        string hashed_password
+        boolean is_active
+        datetime created_at
+    }
+    
+    Document {
+        UUID id PK
+        UUID user_id FK
+        string title
+        string file_type
+        string category
+        string status
+        int file_size
+        int chunk_count
+        datetime created_at
+    }
+    
+    Chunk {
+        UUID id PK
+        UUID document_id FK
+        string content
+        int chunk_index
+        string embedding_id
+        int token_count
+        jsonb metadata
+    }
+    
+    Conversation {
+        UUID id PK
+        UUID user_id FK
+        string title
+        datetime created_at
+    }
+    
+    Message {
+        UUID id PK
+        UUID conversation_id FK
+        string role
+        text content
+        jsonb citations
+        float confidence_score
+        datetime created_at
+    }
+    
+    Equipment {
+        UUID id PK
+        string tag UK
+        string name
+        string type
+        float health_score
+        string status
+        string location
+    }
+    
+    Incident {
+        UUID id PK
+        UUID equipment_id FK
+        string title
+        string severity
+        string status
+        text description
+        datetime occurred_at
+    }
+    
+    Maintenance {
+        UUID id PK
+        UUID equipment_id FK
+        string title
+        string type
+        string priority
+        string status
+        float cost
+        datetime scheduled_date
+    }
+    
+    Compliance {
+        UUID id PK
+        string regulation
+        string standard
+        string section
+        float score
+        string status
+        jsonb violations
+        datetime next_audit_date
+    }
 ```
 
 ---
