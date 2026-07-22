@@ -10,7 +10,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, Query, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 
 from app.api.v1.deps import get_current_user
 from app.schemas import (
@@ -24,6 +24,8 @@ from app.schemas import (
 )
 
 router = APIRouter()
+
+ALLOWED_EXTENSIONS = {".pdf", ".docx", ".xlsx", ".csv", ".txt", ".png", ".jpg", ".jpeg"}
 
 # ─── Demo Data ─────────────────────────────────────────────────
 
