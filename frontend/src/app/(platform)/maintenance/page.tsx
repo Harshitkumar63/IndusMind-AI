@@ -4,18 +4,11 @@ import { motion } from "framer-motion";
 import {
   Wrench,
   AlertTriangle,
-  Clock,
-  TrendingUp,
-  Activity,
-  Gauge,
-  ArrowUpRight,
-  Shield,
-  CircleDot,
   Timer,
   DollarSign,
   Target,
 } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, RadialBarChart, RadialBar, PieChart, Pie } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 /* ═══════════════════════════════════════════════════════════
    Demo Data
@@ -56,12 +49,24 @@ const recommendations = [
 const riskColor: Record<string, string> = { low: "#22c55e", medium: "#eab308", high: "#ef4444" };
 const priorityBadge: Record<string, string> = { urgent: "badge-danger", high: "badge-warning", medium: "badge-info", low: "badge-muted" };
 
-function CustomTooltip({ active, payload, label }: any) {
+interface TooltipPayloadItem {
+  name: string;
+  value: number | string;
+  color: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload) return null;
   return (
     <div className="glass-card px-4 py-3 !bg-[var(--card)] border border-[var(--border)]">
       <p className="text-xs text-[var(--muted-foreground)] mb-1">{label}</p>
-      {payload.map((entry: any, i: number) => (
+      {payload.map((entry: TooltipPayloadItem, i: number) => (
         <p key={i} className="text-sm font-medium" style={{ color: entry.color }}>{entry.name}: {entry.value}</p>
       ))}
     </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BarChart3 } from "lucide-react";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
@@ -42,12 +41,24 @@ const knowledgeCoverage = [
   { area: "Compliance", coverage: 72 }, { area: "Inspection", coverage: 81 },
 ];
 
-function CustomTooltip({ active, payload, label }: any) {
+interface TooltipPayloadItem {
+  name: string;
+  value: number | string;
+  color: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload) return null;
   return (
     <div className="glass-card px-4 py-3 !bg-[var(--card)] border border-[var(--border)]">
       <p className="text-xs text-[var(--muted-foreground)] mb-1">{label}</p>
-      {payload.map((e: any, i: number) => (
+      {payload.map((e: TooltipPayloadItem, i: number) => (
         <p key={i} className="text-sm font-medium" style={{ color: e.color }}>
           {e.name}: {typeof e.value === "number" && e.value > 1000 ? `$${(e.value / 1000).toFixed(0)}K` : e.value}
         </p>

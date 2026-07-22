@@ -12,11 +12,8 @@ import {
   ThumbsDown,
   Plus,
   MessageSquare,
-  Trash2,
   Sparkles,
   ChevronRight,
-  ExternalLink,
-  RotateCcw,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 

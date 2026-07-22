@@ -121,11 +121,19 @@ async def upload_document(
     user: dict[str, Any] = Depends(get_current_user),
 ) -> dict:
     """Upload a document for processing."""
+    filename = file.filename or "Untitled"
+    ext = f".{filename.split('.')[-1].lower()}" if "." in filename else ""
+    if ext and ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported file type '{ext}'. Allowed extensions: {', '.join(sorted(ALLOWED_EXTENSIONS))}",
+        )
+
     return {
         "id": str(uuid.uuid4()),
-        "title": file.filename or "Untitled",
-        "original_filename": file.filename or "unknown",
-        "file_type": "pdf",
+        "title": filename,
+        "original_filename": filename,
+        "file_type": ext.lstrip(".") if ext else "pdf",
         "file_size": 0,
         "status": "processing",
         "uploaded_at": datetime.now(timezone.utc).isoformat(),

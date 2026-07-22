@@ -7,8 +7,6 @@ import {
   AlertTriangle,
   Shield,
   Wrench,
-  Users,
-  Brain,
   MessageSquare,
   TrendingUp,
   TrendingDown,
@@ -30,7 +28,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
 import { formatFileSize, formatRelativeTime } from "@/lib/utils";
 
@@ -93,16 +90,24 @@ const recentUploads = [
   { title: "Vibration Analysis C-201", type: "xlsx", size: 2134000, time: "2025-06-12T16:30:00Z", category: "Report" },
 ];
 
-/* ═══════════════════════════════════════════════════════════
-   Custom Tooltip
-   ═══════════════════════════════════════════════════════════ */
+interface TooltipPayloadItem {
+  name: string;
+  value: number | string;
+  color: string;
+}
 
-function CustomTooltip({ active, payload, label }: any) {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload) return null;
   return (
     <div className="glass-card px-4 py-3 !bg-[var(--card)] border border-[var(--border)]">
       <p className="text-xs text-[var(--muted-foreground)] mb-1.5">{label}</p>
-      {payload.map((entry: any, i: number) => (
+      {payload.map((entry: TooltipPayloadItem, i: number) => (
         <p key={i} className="text-sm font-medium" style={{ color: entry.color }}>
           {entry.name}: {typeof entry.value === 'number' && entry.value % 1 !== 0 ? entry.value.toFixed(1) : entry.value}
         </p>

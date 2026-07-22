@@ -1,17 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
-  Network,
-  Filter,
-  ZoomIn,
-  ZoomOut,
-  Maximize2,
-  Search,
-  Info,
   CircleDot,
 } from "lucide-react";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   ReactFlow,
   Background,
@@ -182,7 +174,7 @@ function generateLayout() {
    ═══════════════════════════════════════════════════════════ */
 
 export default function KnowledgeGraphPage() {
-  const { nodes: initNodes, edges: initEdges } = useMemo(generateLayout, []);
+  const { nodes: initNodes, edges: initEdges } = useMemo(() => generateLayout(), []);
   const [nodes, , onNodesChange] = useNodesState(initNodes);
   const [edges, , onEdgesChange] = useEdgesState(initEdges);
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -256,7 +248,7 @@ export default function KnowledgeGraphPage() {
           />
           <MiniMap
             nodeColor={(node) => {
-              const type = (node.data as any)?.nodeType || "material";
+              const type = (node.data as { nodeType?: string })?.nodeType || "material";
               return NODE_COLORS[type]?.border || "#6b7280";
             }}
             maskColor="rgba(0,0,0,0.6)"

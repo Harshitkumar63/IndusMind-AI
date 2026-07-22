@@ -2,14 +2,8 @@
 
 import { motion } from "framer-motion";
 import {
-  Shield,
   AlertTriangle,
-  CheckCircle2,
   XCircle,
-  Clock,
-  FileWarning,
-  ChevronRight,
-  BarChart3,
   Target,
   Sparkles,
 } from "lucide-react";
@@ -59,12 +53,24 @@ const auditSummary = {
 
 const sevColor: Record<string, string> = { critical: "badge-danger", major: "badge-warning", minor: "badge-info" };
 
-function CustomTooltip({ active, payload, label }: any) {
+interface TooltipPayloadItem {
+  name: string;
+  value: number | string;
+  color: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload) return null;
   return (
     <div className="glass-card px-4 py-3 !bg-[var(--card)] border border-[var(--border)]">
       <p className="text-xs text-[var(--muted-foreground)] mb-1">{label}</p>
-      {payload.map((e: any, i: number) => (
+      {payload.map((e: TooltipPayloadItem, i: number) => (
         <p key={i} className="text-sm font-medium" style={{ color: e.color }}>{e.name}: {e.value}</p>
       ))}
     </div>

@@ -8,20 +8,17 @@ import {
   Image as ImageIcon,
   File,
   Search,
-  Filter,
   Grid3X3,
   List,
   Trash2,
   Eye,
-  Tag,
   Clock,
   CheckCircle2,
   Loader2,
   AlertCircle,
-  X,
 } from "lucide-react";
 import { useState, useCallback } from "react";
-import { formatFileSize, formatRelativeTime, getStatusColor } from "@/lib/utils";
+import { formatFileSize, formatRelativeTime } from "@/lib/utils";
 
 /* ═══════════════════════════════════════════════════════════
    Demo Data

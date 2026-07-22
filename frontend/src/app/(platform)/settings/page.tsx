@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Settings, User, Bell, Shield, Database, Key, Palette, Globe } from "lucide-react";
+import { User, Bell, Database, Key } from "lucide-react";
 
 const settingSections = [
   {

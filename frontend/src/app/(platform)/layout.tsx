@@ -15,8 +15,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Bell,
-  LogOut,
-  User,
   Menu,
 } from "lucide-react";
 import Link from "next/link";

@@ -158,6 +158,11 @@ async def get_conversation(
     }
 
 
+from app.ai.rag.pipeline import rag_pipeline
+from app.core.config import get_settings
+
+settings = get_settings()
+
 @router.post("/conversations/{conversation_id}/messages", response_model=MessageResponse)
 async def send_message(
     conversation_id: str,
@@ -165,6 +170,18 @@ async def send_message(
     user: dict[str, Any] = Depends(get_current_user),
 ) -> dict:
     """Send a message and get an AI response."""
+    if not settings.DEMO_MODE:
+        result = await rag_pipeline.query(question=data.content)
+        return {
+            "id": str(uuid.uuid4()),
+            "role": "assistant",
+            "content": result["content"],
+            "citations": result.get("citations", []),
+            "confidence_score": result.get("confidence_score", 0.85),
+            "suggested_questions": result.get("suggested_questions", []),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+
     response = DEMO_AI_RESPONSES["default"]
     return {
         "id": str(uuid.uuid4()),
