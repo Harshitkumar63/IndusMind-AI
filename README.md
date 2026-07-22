@@ -1,23 +1,40 @@
 <div align="center">
 
+<img src="assets/banner.png" alt="IndusMind AI Banner" width="100%" />
+
+<br/>
+<br/>
+
 # 🧠 IndusMind AI
 
-### Industrial Knowledge Intelligence Platform
+### The AI Brain for Industrial Operations
 
-**"The AI Brain for Industrial Operations"**
+**Transform thousands of PDFs, SOPs, inspection reports, and maintenance logs into structured, searchable intelligence.**
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)](https://postgresql.org/)
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)](https://docker.com/)
+Ask questions. Get answers with citations. Predict failures. Ensure compliance.
 
 <br/>
 
-Transform thousands of PDFs, SOPs, inspection reports, and maintenance logs into **structured, searchable intelligence**.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/Harshitkumar63/IndusMind-AI/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/Harshitkumar63/IndusMind-AI/actions)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
+[![GitHub stars](https://img.shields.io/github/stars/Harshitkumar63/IndusMind-AI?style=for-the-badge&logo=github)](https://github.com/Harshitkumar63/IndusMind-AI/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Harshitkumar63/IndusMind-AI?style=for-the-badge)](https://github.com/Harshitkumar63/IndusMind-AI/commits/main)
 
-Ask questions. Get answers with citations. Predict failures. Ensure compliance.
+<br/>
+
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python)](https://python.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript)](https://typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)](https://docker.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=flat-square&logo=openai)](https://openai.com/)
+[![Neo4j](https://img.shields.io/badge/Neo4j-5-008CC1?style=flat-square&logo=neo4j)](https://neo4j.com/)
+
+<br/>
+
+[Features](#-features) · [Architecture](#-architecture) · [Quick Start](#-quick-start) · [Documentation](#-documentation) · [Contributing](#-contributing)
 
 </div>
 
@@ -25,43 +42,63 @@ Ask questions. Get answers with citations. Predict failures. Ensure compliance.
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
+- [Why IndusMind AI?](#-why-indusmind-ai)
 - [Features](#-features)
 - [Architecture](#-architecture)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
+- [Quick Start](#-quick-start)
 - [Screenshots](#-screenshots)
 - [API Reference](#-api-reference)
-- [Database Schema](#-database-schema)
 - [AI Pipeline](#-ai-pipeline)
-- [Deployment](#-deployment)
+- [Knowledge Graph](#-knowledge-graph)
+- [Documentation](#-documentation)
+- [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
+- [License](#-license)
+- [Acknowledgements](#-acknowledgements)
 
 ---
 
-## 🌟 Overview
+## 🎯 Why IndusMind AI?
 
-**IndusMind AI** is an enterprise-grade AI platform that solves the **unstructured knowledge problem** in industrial organizations. Plants generate thousands of documents—maintenance manuals, inspection reports, SOPs, compliance records—but this knowledge is trapped in PDFs and spreadsheets. Engineers waste hours searching for answers.
+### The Problem
 
-IndusMind AI transforms this chaos into an intelligent, queryable knowledge base using:
-- **RAG (Retrieval-Augmented Generation)** for precise Q&A with source citations
-- **Knowledge Graphs** to map relationships between equipment, people, regulations, and processes
-- **Predictive Maintenance** intelligence from historical failure data
-- **Compliance Analysis** against OSHA, ISO, and API standards
+Industrial organizations generate **thousands of documents** — maintenance manuals, inspection reports, SOPs, compliance records, incident logs. This critical knowledge is **trapped in PDFs and spreadsheets**.
 
-### Target Users
+| Pain Point | Impact |
+|-----------|--------|
+| Engineers spend **40% of time** searching for information | Lost productivity |
+| Critical safety knowledge is buried in documents | Compliance risk |
+| Equipment failure patterns are invisible | Unplanned downtime |
+| Audit preparation requires weeks of manual review | Regulatory penalties |
+
+### The Solution
+
+IndusMind AI transforms this chaos into an **intelligent, queryable knowledge base** using:
+
+- 🤖 **RAG (Retrieval-Augmented Generation)** — Precise Q&A with source citations
+- 🕸️ **Knowledge Graphs** — Map relationships between equipment, people, regulations
+- 🔮 **Predictive Maintenance** — Intelligence from historical failure data
+- 🛡️ **Compliance Analysis** — Score against OSHA, ISO, and API standards
+
+### Who Is This For?
+
 | Role | Use Case |
 |------|----------|
-| Plant Engineers | Equipment troubleshooting, technical queries |
-| Maintenance Engineers | Predictive maintenance, work order intelligence |
-| Safety Officers | Incident analysis, safety compliance checks |
-| Quality Engineers | Audit preparation, gap analysis |
-| Operations Managers | Dashboard oversight, KPI monitoring |
+| **Plant Engineers** | Equipment troubleshooting, technical queries |
+| **Maintenance Engineers** | Predictive maintenance, work order intelligence |
+| **Safety Officers** | Incident analysis, safety compliance checks |
+| **Quality Engineers** | Audit preparation, gap analysis |
+| **Operations Managers** | Dashboard oversight, KPI monitoring |
 
 ---
 
 ## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
 
 ### 🔍 AI-Powered RAG Chat
 - Natural language Q&A over your entire document corpus
@@ -70,12 +107,20 @@ IndusMind AI transforms this chaos into an intelligent, queryable knowledge base
 - Suggested follow-up questions
 - Confidence scoring
 
+</td>
+<td width="50%">
+
 ### 📄 Document Intelligence
 - Drag-and-drop upload (PDF, DOCX, XLSX, CSV, Images)
 - OCR for scanned documents (Tesseract/PyMuPDF)
 - Automatic text extraction and semantic chunking
 - Embedding generation and vector storage (ChromaDB)
 - Grid/list view with category filtering
+
+</td>
+</tr>
+<tr>
+<td>
 
 ### 🕸️ Knowledge Graph
 - Automatic entity extraction (Equipment, People, SOPs, Regulations)
@@ -84,12 +129,20 @@ IndusMind AI transforms this chaos into an intelligent, queryable knowledge base
 - Neo4j-backed graph storage
 - Entity type filtering and search
 
+</td>
+<td>
+
 ### 🔧 Maintenance Intelligence
 - Equipment health scoring and risk assessment
 - Failure prediction with probability estimates
-- Work order tracking (preventive, corrective, predictive, breakdown)
+- Work order tracking (preventive, corrective, predictive)
 - AI-generated maintenance recommendations
 - Cost tracking and trend analysis
+
+</td>
+</tr>
+<tr>
+<td>
 
 ### 🛡️ Compliance Analysis
 - Multi-standard compliance scoring (OSHA, ISO, API, ASME)
@@ -98,79 +151,64 @@ IndusMind AI transforms this chaos into an intelligent, queryable knowledge base
 - Trend analysis over time
 - Gap identification with recommendations
 
+</td>
+<td>
+
 ### 📊 Analytics Dashboard
 - 6 KPI summary cards with trend indicators
 - Incident severity distribution (stacked area chart)
 - Equipment health comparison (horizontal bar chart)
 - Compliance trend (line chart)
 - Document category distribution (donut chart)
-- Knowledge coverage assessment (animated circles)
 - Maintenance cost tracking (area chart)
+
+</td>
+</tr>
+</table>
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                       PRESENTATION LAYER                      │
-│  ┌──────────────┐  ┌────────────┐  ┌──────────────────────┐ │
-│  │  Landing Page │  │  Platform   │  │   Platform Pages     │ │
-│  │  (Next.js)   │  │  Layout +   │  │ Dashboard, Chat, KG, │ │
-│  │              │  │  Sidebar    │  │ Docs, Maintenance,   │ │
-│  │              │  │             │  │ Compliance, Analytics │ │
-│  └──────────────┘  └────────────┘  └──────────────────────┘ │
-│         Next.js 15 • React • TypeScript • Tailwind CSS        │
-└───────────────────────────┬──────────────────────────────────┘
-                            │ REST API (Axios)
-┌───────────────────────────┼──────────────────────────────────┐
-│                       API GATEWAY                             │
-│  ┌────────────────────────┴───────────────────────────────┐  │
-│  │              FastAPI (Uvicorn ASGI)                     │  │
-│  │  /auth  /documents  /chat  /knowledge-graph            │  │
-│  │  /equipment  /maintenance  /compliance  /analytics     │  │
-│  └────────────────────────┬───────────────────────────────┘  │
-│         CORS • JWT Auth • RBAC • Demo Mode Bypass             │
-└───────────────────────────┼──────────────────────────────────┘
-                            │
-┌───────────────────────────┼──────────────────────────────────┐
-│                       SERVICE LAYER                           │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐  │
-│  │  Document    │  │  Chat/RAG    │  │  Knowledge Graph   │  │
-│  │  Service     │  │  Service     │  │  Service           │  │
-│  └─────────────┘  └──────────────┘  └────────────────────┘  │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐  │
-│  │  Analytics   │  │  Maintenance │  │  Compliance        │  │
-│  │  Service     │  │  Service     │  │  Service           │  │
-│  └─────────────┘  └──────────────┘  └────────────────────┘  │
-└───────────────────────────┼──────────────────────────────────┘
-                            │
-┌───────────────────────────┼──────────────────────────────────┐
-│                       AI PIPELINE                             │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐  │
-│  │  OCR/Text    │  │  Embeddings  │  │  RAG Pipeline      │  │
-│  │  Extraction  │  │  Generator   │  │  (Query→Retrieve   │  │
-│  │  (PyMuPDF,   │  │  (Sentence   │  │   →Generate→Cite)  │  │
-│  │   Tesseract) │  │  Transformers│  │                    │  │
-│  └─────────────┘  └──────────────┘  └────────────────────┘  │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐  │
-│  │  NER Entity  │  │  Text        │  │  LLM Gateway       │  │
-│  │  Extraction  │  │  Chunker     │  │  (OpenAI/Local)    │  │
-│  └─────────────┘  └──────────────┘  └────────────────────┘  │
-└───────────────────────────┼──────────────────────────────────┘
-                            │
-┌───────────────────────────┼──────────────────────────────────┐
-│                    INFRASTRUCTURE LAYER                        │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐ │
-│  │PostgreSQL│  │ChromaDB  │  │  Neo4j   │  │    Redis     │ │
-│  │(Metadata)│  │(Vectors) │  │ (Graph)  │  │  (Cache)     │ │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────────┘ │
-│  ┌──────────────────────┐  ┌──────────────────────────────┐  │
-│  │  File Storage        │  │  Celery Workers              │  │
-│  │  (Local/S3)          │  │  (Async Document Processing) │  │
-│  └──────────────────────┘  └──────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│                     PRESENTATION LAYER                           │
+│                                                                  │
+│  Next.js 15 · React 19 · TypeScript · Tailwind CSS              │
+│  Landing Page → Platform Layout → 8 Feature Pages               │
+└──────────────────────────┬───────────────────────────────────────┘
+                           │ REST API (Axios)
+┌──────────────────────────┼───────────────────────────────────────┐
+│                     APPLICATION LAYER                             │
+│                                                                  │
+│  FastAPI (Uvicorn ASGI) · JWT Auth · CORS · RBAC                 │
+│  /auth  /documents  /chat  /knowledge-graph  /equipment          │
+│  /maintenance  /compliance  /analytics  /search                  │
+└──────────────────────────┼───────────────────────────────────────┘
+                           │
+┌──────────────────────────┼───────────────────────────────────────┐
+│                     SERVICE LAYER                                 │
+│                                                                  │
+│  DocumentService · ChatService · KnowledgeGraphService           │
+│  AnalyticsService · MaintenanceService · ComplianceService       │
+└──────────────────────────┼───────────────────────────────────────┘
+                           │
+┌──────────────────────────┼───────────────────────────────────────┐
+│                     AI PIPELINE                                   │
+│                                                                  │
+│  OCR/Extract → Chunk → Embed → Vector Store → RAG → Cite        │
+│  NER → Knowledge Graph (Neo4j)                                   │
+│  LLM Gateway (OpenAI GPT-4o / Demo Fallback)                    │
+└──────────────────────────┼───────────────────────────────────────┘
+                           │
+┌──────────────────────────┼───────────────────────────────────────┐
+│                     INFRASTRUCTURE                                │
+│                                                                  │
+│  PostgreSQL 16 · ChromaDB · Neo4j 5 · Redis 7 · Celery · S3     │
+└──────────────────────────────────────────────────────────────────┘
 ```
+
+> 📐 Detailed architecture documentation: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 
 ---
 
@@ -178,42 +216,39 @@ IndusMind AI transforms this chaos into an intelligent, queryable knowledge base
 
 ### Frontend
 | Technology | Purpose |
-|-----------|---------|
+|-----------|---------| 
 | **Next.js 15** | React framework with App Router |
 | **TypeScript** | Type-safe development |
 | **Tailwind CSS** | Utility-first styling |
 | **Framer Motion** | Animations & transitions |
-| **Recharts** | Data visualization (charts) |
+| **Recharts** | Data visualization |
 | **React Flow** | Knowledge graph visualization |
-| **Lucide Icons** | Icon library |
-| **Radix UI** | Accessible primitives |
-| **Axios** | HTTP client |
+| **Radix UI** | Accessible component primitives |
 | **Zustand** | State management |
 
 ### Backend
 | Technology | Purpose |
-|-----------|---------|
+|-----------|---------| 
 | **FastAPI** | ASGI web framework |
 | **Python 3.11** | Core language |
-| **SQLAlchemy 2.0** | Async ORM (Mapped style) |
+| **SQLAlchemy 2.0** | Async ORM |
 | **Pydantic v2** | Validation & settings |
-| **Structlog** | Structured logging |
 | **Celery** | Async task queue |
+| **Structlog** | Structured logging |
 
 ### AI / ML
 | Technology | Purpose |
-|-----------|---------|
+|-----------|---------| 
 | **OpenAI GPT-4o** | LLM for RAG responses |
 | **Sentence Transformers** | Local embedding generation |
 | **ChromaDB** | Vector similarity search |
 | **Neo4j** | Knowledge graph storage |
-| **PyMuPDF** | PDF text extraction |
-| **Tesseract OCR** | Scanned document OCR |
+| **PyMuPDF + Tesseract** | Document OCR & extraction |
 
 ### Infrastructure
 | Technology | Purpose |
-|-----------|---------|
-| **PostgreSQL 16** | Primary database |
+|-----------|---------| 
+| **PostgreSQL 16** | Primary relational database |
 | **Redis 7** | Caching & task broker |
 | **Docker Compose** | Container orchestration |
 
@@ -222,170 +257,153 @@ IndusMind AI transforms this chaos into an intelligent, queryable knowledge base
 ## 📁 Project Structure
 
 ```
-IndusMind AI/
-├── frontend/                 # Next.js 15 Application
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── page.tsx                    # Landing page
-│   │   │   ├── layout.tsx                  # Root layout
-│   │   │   ├── globals.css                 # Design system
-│   │   │   └── (platform)/                 # Platform route group
-│   │   │       ├── layout.tsx              # Sidebar + Top bar
-│   │   │       ├── dashboard/page.tsx      # Analytics dashboard
-│   │   │       ├── chat/page.tsx           # AI RAG chat
-│   │   │       ├── documents/page.tsx      # Document management
-│   │   │       ├── knowledge-graph/page.tsx# Interactive graph
-│   │   │       ├── maintenance/page.tsx    # Maintenance intelligence
-│   │   │       ├── compliance/page.tsx     # Compliance analysis
-│   │   │       ├── analytics/page.tsx      # Detailed analytics
-│   │   │       └── settings/page.tsx       # Platform settings
-│   │   └── lib/
-│   │       ├── api.ts                      # Axios API client
-│   │       └── utils.ts                    # Utility functions
-│   ├── package.json
-│   └── tsconfig.json
+IndusMind-AI/
 │
-├── backend/                  # FastAPI Application
-│   ├── app/
-│   │   ├── main.py                         # Application factory
-│   │   ├── seed.py                         # Demo data generator
-│   │   ├── core/
-│   │   │   ├── config.py                   # Pydantic settings
-│   │   │   ├── security.py                 # JWT + RBAC + demo mode
-│   │   │   ├── logging.py                  # Structlog config
-│   │   │   └── exceptions.py               # Domain exceptions
-│   │   ├── domain/models/                  # SQLAlchemy ORM models
-│   │   │   ├── user.py, document.py, chunk.py
-│   │   │   ├── equipment.py, incident.py
-│   │   │   ├── maintenance.py, compliance.py
-│   │   │   ├── conversation.py, message.py
-│   │   │   └── knowledge.py
-│   │   ├── schemas/                        # Pydantic DTOs
-│   │   │   └── __init__.py                 # All request/response models
-│   │   ├── api/v1/
-│   │   │   ├── router.py                   # Route aggregator
-│   │   │   └── endpoints/                  # 9 API modules
-│   │   │       ├── auth.py, documents.py, chat.py
-│   │   │       ├── knowledge_graph.py, equipment.py
-│   │   │       ├── maintenance.py, compliance.py
-│   │   │       ├── analytics.py, search.py
-│   │   ├── services/                       # Business logic
-│   │   │   ├── document_service.py
-│   │   │   ├── chat_service.py
-│   │   │   ├── knowledge_graph_service.py
-│   │   │   └── analytics_service.py
-│   │   ├── infrastructure/                 # External systems
-│   │   │   ├── database.py                 # SQLAlchemy async engine
-│   │   │   ├── redis.py                    # Redis cache client
-│   │   │   ├── vector_store.py             # ChromaDB client
-│   │   │   ├── graph_db.py                 # Neo4j driver
-│   │   │   ├── storage.py                  # File storage
-│   │   │   └── llm.py                      # LLM gateway (OpenAI)
-│   │   ├── ai/                             # AI Pipeline
-│   │   │   ├── ocr/extractor.py            # Multi-format extraction
-│   │   │   ├── embeddings/generator.py     # Chunking + embeddings
-│   │   │   ├── rag/pipeline.py             # Full RAG pipeline
-│   │   │   └── ner/entity_extractor.py     # Industrial NER
-│   │   └── workers/
-│   │       └── tasks.py                    # Celery background tasks
-│   ├── requirements.txt
-│   ├── pyproject.toml
-│   ├── .env / .env.example
+├── frontend/                    # Next.js 15 Application
+│   └── src/
+│       ├── app/
+│       │   ├── page.tsx         # Landing page
+│       │   ├── globals.css      # Design system
+│       │   └── (platform)/      # Platform route group
+│       │       ├── layout.tsx   # Sidebar + Top bar
+│       │       ├── dashboard/   # Analytics dashboard
+│       │       ├── chat/        # AI RAG chat
+│       │       ├── documents/   # Document management
+│       │       ├── knowledge-graph/  # Knowledge graph
+│       │       ├── maintenance/ # Maintenance intelligence
+│       │       ├── compliance/  # Compliance analysis
+│       │       ├── analytics/   # Detailed analytics
+│       │       └── settings/    # Platform settings
+│       └── lib/                 # API client & utilities
 │
-├── docker/
-│   ├── docker-compose.yml    # Full stack orchestration
+├── backend/                     # FastAPI Application
+│   └── app/
+│       ├── main.py              # Application factory
+│       ├── core/                # Config, security, logging
+│       ├── domain/models/       # SQLAlchemy ORM models
+│       ├── api/v1/endpoints/    # 9 API modules
+│       ├── services/            # Business logic layer
+│       ├── infrastructure/      # DB, cache, vector, graph, LLM
+│       ├── ai/                  # OCR, embeddings, RAG, NER
+│       └── workers/             # Celery async tasks
+│
+├── docs/                        # 📖 Documentation
+│   ├── ARCHITECTURE.md          # System architecture
+│   ├── DATABASE.md              # Database design
+│   ├── API.md                   # API reference
+│   ├── AI_PIPELINE.md           # AI pipeline details
+│   ├── DEPLOYMENT.md            # Deployment guide
+│   ├── SYSTEM_DESIGN.md         # System design
+│   ├── DEVELOPER_GUIDE.md       # Developer guide
+│   └── KNOWLEDGE_GRAPH.md       # Knowledge graph
+│
+├── docker/                      # 🐳 Docker
+│   ├── docker-compose.yml       # Full stack orchestration
 │   ├── backend.Dockerfile
 │   └── frontend.Dockerfile
 │
-├── database/
-│   └── init.sql              # PostgreSQL initialization
+├── database/                    # Database initialization
+│   └── init.sql
 │
-├── .gitignore
-└── README.md
+├── assets/                      # 🎨 Branding
+│   ├── banner.png               # Hero banner
+│   ├── logo.png                 # Logo icon
+│   └── branding/README.md       # Brand guidelines
+│
+├── scripts/                     # 🔧 Development scripts
+│   ├── setup.sh                 # Project setup
+│   └── seed.sh                  # Database seeding
+│
+├── tests/                       # 🧪 Test suites
+│   ├── backend/                 # Backend pytest tests
+│   └── frontend/                # Frontend tests
+│
+├── .github/                     # GitHub configuration
+│   ├── workflows/ci.yml         # CI pipeline
+│   ├── workflows/docker.yml     # Docker build validation
+│   ├── ISSUE_TEMPLATE/          # Issue templates
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── dependabot.yml           # Dependency updates
+│
+├── CONTRIBUTING.md              # Contribution guidelines
+├── CODE_OF_CONDUCT.md           # Contributor covenant
+├── SECURITY.md                  # Security policy
+├── CHANGELOG.md                 # Release history
+├── ROADMAP.md                   # Project roadmap
+├── LICENSE                      # MIT License
+├── Makefile                     # Development commands
+└── README.md                    # You are here
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
-### Prerequisites
-- **Node.js 20+** and **npm**
-- **Python 3.11+**
-- **Docker & Docker Compose** (optional, for full stack)
-
-### Quick Start (Frontend Only)
+### Option 1: Frontend Only (Fastest)
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/your-org/indusmind-ai.git
-cd indusmind-ai
+# Clone the repository
+git clone https://github.com/Harshitkumar63/IndusMind-AI.git
+cd IndusMind-AI
 
-# 2. Install frontend dependencies
+# Install and run
 cd frontend
 npm install
-
-# 3. Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — the platform runs with demo data out of the box.
+Open **[http://localhost:3000](http://localhost:3000)** — the platform runs with demo data out of the box. No API keys needed.
 
-### Full Stack (Docker)
+### Option 2: Full Stack (Docker)
 
 ```bash
-# Start all services
 cd docker
 docker compose up -d
-
-# Services:
-# Frontend:  http://localhost:3000
-# Backend:   http://localhost:8000
-# API Docs:  http://localhost:8000/docs
-# Neo4j:     http://localhost:7474
-# ChromaDB:  http://localhost:8001
 ```
 
-### Backend Only
+| Service | URL |
+|---------|-----|
+| Frontend | [http://localhost:3000](http://localhost:3000) |
+| Backend API | [http://localhost:8000](http://localhost:8000) |
+| API Docs (Swagger) | [http://localhost:8000/docs](http://localhost:8000/docs) |
+| Neo4j Browser | [http://localhost:7474](http://localhost:7474) |
+
+### Option 3: Backend Only
 
 ```bash
 cd backend
-
-# Create virtual environment
 python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate   # Windows
+source .venv/bin/activate    # Linux/Mac
+# .venv\Scripts\activate     # Windows
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Set environment variables
 cp .env.example .env
-
-# Start server
 uvicorn app.main:app --reload --port 8000
 ```
+
+> 📖 Full setup guide: [`docs/DEVELOPER_GUIDE.md`](docs/DEVELOPER_GUIDE.md)
 
 ---
 
 ## 🖼️ Screenshots
 
-### Landing Page
-Premium dark-mode landing with animated hero, feature cards, and stats bar.
+> **Note**: Screenshots will be added after the UI is fully polished. The platform features:
 
-### Dashboard
-6 KPI cards, incident trends, equipment health, compliance score, document categories, recent uploads.
+| Page | Description |
+|------|-------------|
+| **Landing Page** | Premium dark-mode landing with animated hero, feature cards, stats bar |
+| **Dashboard** | 6 KPI cards, incident trends, equipment health, compliance score, document categories |
+| **AI Chat** | ChatGPT-style interface with citations, confidence scores, suggested questions |
+| **Knowledge Graph** | Interactive React Flow visualization with custom entity-typed nodes |
+| **Maintenance** | Equipment health table, risk assessment, AI recommendations |
+| **Compliance** | Score gauge, standard-by-standard progress, violation tracker |
+| **Analytics** | Detailed charts for incidents, equipment, documents, and costs |
 
-### AI Chat
-ChatGPT-style interface with citations, confidence scores, suggested questions, and conversation history.
-
-### Knowledge Graph
-Interactive React Flow visualization with custom nodes colored by entity type, animated edges, and minimap.
-
-### Maintenance Intelligence
-Equipment health table with risk assessment, maintenance trend chart, AI recommendations.
-
-### Compliance Analysis
-Score gauge, standard-by-standard progress bars, violation tracker, AI audit summary.
+<!-- Screenshots will be added here:
+![Dashboard](assets/screenshots/dashboard.png)
+![AI Chat](assets/screenshots/chat.png)
+![Knowledge Graph](assets/screenshots/knowledge-graph.png)
+-->
 
 ---
 
@@ -399,73 +417,17 @@ Base URL: `http://localhost:8000/api/v1`
 | `POST` | `/auth/login` | User authentication |
 | `GET` | `/documents` | List documents |
 | `POST` | `/documents/upload` | Upload document |
-| `GET` | `/documents/{id}` | Get document details |
 | `POST` | `/chat/conversations` | Create conversation |
 | `POST` | `/chat/conversations/{id}/messages` | Send message (RAG) |
 | `GET` | `/knowledge-graph` | Get full graph |
-| `GET` | `/knowledge-graph/search?q=` | Search nodes |
+| `GET` | `/knowledge-graph/search?q=` | Search graph nodes |
 | `GET` | `/equipment` | List equipment |
-| `GET` | `/maintenance` | List maintenance records |
-| `GET` | `/maintenance/intelligence` | AI insights |
-| `GET` | `/compliance` | List compliance records |
-| `GET` | `/compliance/score` | Overall score |
+| `GET` | `/maintenance/intelligence` | AI maintenance insights |
+| `GET` | `/compliance/score` | Overall compliance score |
 | `GET` | `/analytics/dashboard` | Dashboard aggregates |
-| `GET` | `/search?q=` | Full-text search |
 | `GET` | `/search/semantic?q=` | Semantic search |
 
-Interactive docs available at: [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-## 🗄️ Database Schema (ER Diagram)
-
-```
-┌─────────────┐     ┌──────────────┐     ┌────────────────┐
-│    User      │     │   Document   │     │     Chunk      │
-├─────────────┤     ├──────────────┤     ├────────────────┤
-│ id (PK)     │     │ id (PK)      │     │ id (PK)        │
-│ email       │──1:M│ uploaded_by   │──1:M│ document_id    │
-│ full_name   │     │ title         │     │ content        │
-│ role        │     │ file_type     │     │ chunk_index    │
-│ department  │     │ category      │     │ embedding_id   │
-│ hashed_pw   │     │ status        │     │ token_count    │
-└─────────────┘     │ page_count    │     └────────────────┘
-                    │ chunk_count   │
-                    └──────────────┘
-
-┌──────────────┐     ┌──────────────┐     ┌────────────────┐
-│  Equipment   │     │   Incident   │     │  Maintenance   │
-├──────────────┤     ├──────────────┤     ├────────────────┤
-│ id (PK)      │     │ id (PK)      │     │ id (PK)        │
-│ tag          │──1:M│ equipment_id │──1:M│ equipment_id   │
-│ name         │     │ title        │     │ title          │
-│ type         │     │ severity     │     │ type           │
-│ health_score │     │ status       │     │ priority       │
-│ status       │     │ description  │     │ status         │
-│ location     │     │ root_cause   │     │ cost           │
-└──────────────┘     └──────────────┘     └────────────────┘
-
-┌──────────────┐     ┌──────────────┐     ┌────────────────┐
-│  Compliance  │     │ Conversation │     │    Message     │
-├──────────────┤     ├──────────────┤     ├────────────────┤
-│ id (PK)      │     │ id (PK)      │     │ id (PK)        │
-│ regulation   │     │ user_id (FK) │──1:M│ conversation_id│
-│ standard     │     │ title        │     │ role           │
-│ score        │     │ created_at   │     │ content        │
-│ status       │     └──────────────┘     │ citations      │
-│ violations   │                          │ confidence     │
-└──────────────┘                          └────────────────┘
-
-┌────────────────────────────────────────────────────────────┐
-│                    Knowledge Graph (Neo4j)                  │
-│  ┌────────────┐    relationship     ┌────────────┐         │
-│  │ KnowledgeNode├─────────────────►│ KnowledgeNode│        │
-│  │ • type      │                   │ • type       │        │
-│  │ • name      │  (maintained_by,  │ • name       │        │
-│  │ • properties│   governed_by,    │ • properties │        │
-│  └────────────┘   located_in, etc) └────────────┘         │
-└────────────────────────────────────────────────────────────┘
-```
+> 📖 Full API documentation: [`docs/API.md`](docs/API.md) | Interactive: [localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
@@ -478,63 +440,117 @@ Document Upload → Text Extraction → Semantic Chunking → Embedding Generati
                         ↓                                       ↓
                   Knowledge Graph                         User Query
                   (Neo4j Storage)                              ↓
-                                                     Query Embedding
-                                                           ↓
-                                                    Vector Similarity
-                                                    Search (Top-K)
-                                                           ↓
-                                                    Context Assembly
-                                                           ↓
-                                                    LLM Generation
-                                                    (GPT-4o / Local)
-                                                           ↓
-                                                    Response + Citations
+                                                       Query Embedding
+                                                             ↓
+                                                      Vector Search (Top-K)
+                                                             ↓
+                                                      Context Assembly
+                                                             ↓
+                                                      LLM Generation (GPT-4o)
+                                                             ↓
+                                                      Response + Citations
 ```
 
-### Pipeline Steps
+| Stage | Technology | Details |
+|-------|-----------|---------|
+| OCR/Extract | PyMuPDF, Tesseract | Multi-format: PDF, DOCX, XLSX, Images |
+| Chunking | Custom | Sentence-boundary, 512 tokens, 50 overlap |
+| Embeddings | Sentence Transformers | `all-MiniLM-L6-v2` (384 dimensions) |
+| Vector Store | ChromaDB | Cosine similarity, metadata filtering |
+| NER | Regex-based | Equipment IDs, SOPs, regulations, incidents |
+| Knowledge Graph | Neo4j | Co-occurrence relationship inference |
+| RAG | OpenAI GPT-4o | Context-augmented generation with citations |
 
-1. **OCR / Text Extraction** — PyMuPDF for native PDFs, Tesseract for scanned, python-docx/openpyxl for Office formats
-2. **Semantic Chunking** — Sentence-boundary splitting with configurable overlap (512 tokens, 50 overlap)
-3. **Embedding Generation** — Sentence Transformers (`all-MiniLM-L6-v2`) or OpenAI embeddings
-4. **Vector Storage** — ChromaDB with cosine similarity and metadata filtering
-5. **NER** — Regex-based extraction of equipment IDs, SOPs, regulations, incidents, locations, people
-6. **Knowledge Graph** — Co-occurrence based relationship inference, stored in Neo4j
-7. **RAG Query** — Embed query → retrieve top-K → assemble context → LLM generate → cite sources
+> 📖 Full pipeline documentation: [`docs/AI_PIPELINE.md`](docs/AI_PIPELINE.md)
 
 ---
 
-## 🚢 Deployment
+## 🕸️ Knowledge Graph
 
-### Docker Compose (Recommended)
+IndusMind AI automatically constructs a knowledge graph from your documents:
 
-```bash
-cd docker
-docker compose up -d --build
-```
+- **Equipment** ↔ **People** (maintained_by)
+- **Equipment** ↔ **Regulations** (governed_by)
+- **Equipment** ↔ **Locations** (located_in)
+- **Equipment** ↔ **SOPs** (referenced_in)
+- **People** ↔ **Incidents** (involved_in)
 
-### Environment Variables
+> 📖 Full knowledge graph documentation: [`docs/KNOWLEDGE_GRAPH.md`](docs/KNOWLEDGE_GRAPH.md)
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DEMO_MODE` | `true` | Enable demo mode (no API keys needed) |
-| `OPENAI_API_KEY` | — | OpenAI API key for production RAG |
-| `DATABASE_URL` | `postgresql+asyncpg://...` | PostgreSQL connection |
-| `REDIS_URL` | `redis://localhost:6379/0` | Redis connection |
-| `NEO4J_URI` | `bolt://localhost:7687` | Neo4j connection |
-| `CHROMA_HOST` | `localhost` | ChromaDB host |
+---
+
+## 📖 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture and design patterns |
+| [`DATABASE.md`](docs/DATABASE.md) | Database schema, ER diagrams, indexing |
+| [`API.md`](docs/API.md) | Complete REST API reference |
+| [`AI_PIPELINE.md`](docs/AI_PIPELINE.md) | OCR → RAG pipeline details |
+| [`DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Docker, cloud, and production deployment |
+| [`SYSTEM_DESIGN.md`](docs/SYSTEM_DESIGN.md) | High-level design and scalability |
+| [`DEVELOPER_GUIDE.md`](docs/DEVELOPER_GUIDE.md) | Development setup and conventions |
+| [`KNOWLEDGE_GRAPH.md`](docs/KNOWLEDGE_GRAPH.md) | Graph schema and query patterns |
+
+---
+
+## 🗺️ Roadmap
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| **v1.0** | Core platform — RAG, Knowledge Graph, Compliance, Maintenance | ✅ Released |
+| **v1.1** | Streaming chat, advanced RAG, batch upload, export reports | 🚧 Next |
+| **v1.2** | User management, RBAC, audit logging, comprehensive tests | 📋 Planned |
+| **v2.0** | Predictive ML, anomaly detection, P&ID viewer, plugins | 🔮 Future |
+
+> 📖 Full roadmap: [`ROADMAP.md`](ROADMAP.md)
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from everyone! Whether it's:
+
+- 🐛 **Bug Reports** — Found an issue? [Report it](https://github.com/Harshitkumar63/IndusMind-AI/issues/new?template=bug_report.yml)
+- 💡 **Feature Requests** — Have an idea? [Suggest it](https://github.com/Harshitkumar63/IndusMind-AI/issues/new?template=feature_request.yml)
+- 📝 **Documentation** — Improvements always welcome
+- 🔧 **Code** — Fix bugs or implement features
+
+Please read our [**Contributing Guide**](CONTRIBUTING.md) and [**Code of Conduct**](CODE_OF_CONDUCT.md) before getting started.
 
 ---
 
 ## 📄 License
 
-This project was built for the **AI Hackathon 2025**.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- [OpenAI](https://openai.com/) — GPT-4o for intelligent responses
+- [FastAPI](https://fastapi.tiangolo.com/) — High-performance Python web framework
+- [Next.js](https://nextjs.org/) — React framework for production
+- [ChromaDB](https://www.trychroma.com/) — Open-source vector database
+- [Neo4j](https://neo4j.com/) — Graph database platform
+- [Sentence Transformers](https://www.sbert.net/) — State-of-the-art embeddings
+- [Framer Motion](https://www.framer.com/motion/) — Production-ready animations
+- [Recharts](https://recharts.org/) — React charting library
+- [Lucide](https://lucide.dev/) — Beautiful & consistent icons
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by the IndusMind AI Team**
+**⭐ Star this repository if you find it useful!**
+
+Built with ❤️ for the **AI Hackathon 2025**
 
 *Transforming Industrial Knowledge into Actionable Intelligence*
+
+<br/>
+
+[![GitHub stars](https://img.shields.io/github/stars/Harshitkumar63/IndusMind-AI?style=social)](https://github.com/Harshitkumar63/IndusMind-AI/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Harshitkumar63/IndusMind-AI?style=social)](https://github.com/Harshitkumar63/IndusMind-AI/network)
 
 </div>

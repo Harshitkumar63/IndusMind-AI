@@ -50,7 +50,22 @@ coverage/
 .coverage
 htmlcov/
 
+# Python Tooling
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg
+*.egg-info/
+
+# Test
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+
 # Misc
 *.bak
 *.tmp
 .cache/
+*.pid
+*.seed

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build
+.next/
+out/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Generated
+package-lock.json
+
+# Backend (not Prettier's concern)
+backend/
+database/
+docker/
+
+# Documentation
+*.md
