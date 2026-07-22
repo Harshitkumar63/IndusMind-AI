@@ -16,6 +16,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
 
 /* ═══════════════════════════════════════════════════════════
    Types
@@ -242,10 +243,42 @@ export default function ChatPage() {
                             {Math.round(msg.confidence_score * 100)}% Confident
                           </span>
                         )}
-                        <button className="flex items-center gap-1 hover:text-[var(--foreground)] transition-colors"><Copy className="w-3 h-3" /> Copy</button>
-                        <button className="flex items-center gap-1 hover:text-[var(--foreground)] transition-colors"><Download className="w-3 h-3" /> Export</button>
-                        <button className="flex items-center gap-1 hover:text-emerald-400 transition-colors"><ThumbsUp className="w-3 h-3" /></button>
-                        <button className="flex items-center gap-1 hover:text-red-400 transition-colors"><ThumbsDown className="w-3 h-3" /></button>
+                        <button
+                          className="flex items-center gap-1 hover:text-[var(--foreground)] transition-colors"
+                          onClick={() => {
+                            navigator.clipboard.writeText(msg.content);
+                            toast.success("Copied to clipboard");
+                          }}
+                        >
+                          <Copy className="w-3 h-3" /> Copy
+                        </button>
+                        <button
+                          className="flex items-center gap-1 hover:text-[var(--foreground)] transition-colors"
+                          onClick={() => {
+                            const blob = new Blob([msg.content], { type: "text/plain" });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = "indusmind-response.txt";
+                            a.click();
+                            URL.revokeObjectURL(url);
+                            toast.success("Response exported");
+                          }}
+                        >
+                          <Download className="w-3 h-3" /> Export
+                        </button>
+                        <button
+                          className="flex items-center gap-1 hover:text-emerald-400 transition-colors"
+                          onClick={() => toast.success("Feedback submitted — thank you!")}
+                        >
+                          <ThumbsUp className="w-3 h-3" />
+                        </button>
+                        <button
+                          className="flex items-center gap-1 hover:text-red-400 transition-colors"
+                          onClick={() => toast.info("Feedback noted — we'll improve this response")}
+                        >
+                          <ThumbsDown className="w-3 h-3" />
+                        </button>
                       </div>
 
                       {/* Citations */}

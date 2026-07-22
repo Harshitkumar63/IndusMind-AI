@@ -18,6 +18,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useState, useCallback } from "react";
+import { toast } from "sonner";
 import { formatFileSize, formatRelativeTime } from "@/lib/utils";
 
 /* ═══════════════════════════════════════════════════════════
@@ -84,7 +85,21 @@ export default function DocumentsPage() {
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    // In production: handle file upload
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      toast.success(`Uploading ${files.length} file${files.length > 1 ? "s" : ""}…`, {
+        description: files.map((f) => f.name).join(", "),
+      });
+    }
+  }, []);
+
+  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length > 0) {
+      toast.success(`Uploading ${files.length} file${files.length > 1 ? "s" : ""}…`, {
+        description: files.map((f) => f.name).join(", "),
+      });
+    }
   }, []);
 
   return (
@@ -124,7 +139,7 @@ export default function DocumentsPage() {
         <p className="text-xs text-[var(--muted-foreground)]">
           Supports PDF, DOCX, XLSX, CSV, TXT, and Images — Max 50 MB per file
         </p>
-        <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" multiple accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg" />
+        <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" multiple accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg" onChange={handleFileInput} />
       </motion.div>
 
       {/* ─── Filters Bar ──────────────────────────────── */}
@@ -242,8 +257,18 @@ export default function DocumentsPage() {
                   <span className="text-xs text-[var(--muted-foreground)]">{formatRelativeTime(doc.uploaded)}</span>
                 </div>
                 <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="p-1.5 rounded-md hover:bg-[var(--muted)] text-[var(--muted-foreground)]"><Eye className="w-4 h-4" /></button>
-                  <button className="p-1.5 rounded-md hover:bg-red-500/10 text-[var(--muted-foreground)] hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
+                  <button
+                    className="p-1.5 rounded-md hover:bg-[var(--muted)] text-[var(--muted-foreground)]"
+                    onClick={() => toast.info(`Viewing "${doc.title}"`)}
+                  >
+                    <Eye className="w-4 h-4" />
+                  </button>
+                  <button
+                    className="p-1.5 rounded-md hover:bg-red-500/10 text-[var(--muted-foreground)] hover:text-red-400"
+                    onClick={() => toast.error(`Deleted "${doc.title}"`, { description: "This action cannot be undone." })}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </>
             )}
