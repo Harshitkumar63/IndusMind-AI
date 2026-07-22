@@ -17,10 +17,30 @@ router = APIRouter()
 # ─── Demo Knowledge Graph ──────────────────────────────────────
 
 DEMO_NODES = [
-    {"id": "n1", "node_type": "equipment", "name": "Pump P-101", "properties": {"type": "centrifugal", "criticality": "critical"}},
-    {"id": "n2", "node_type": "equipment", "name": "Compressor C-201", "properties": {"type": "reciprocating", "criticality": "critical"}},
-    {"id": "n3", "node_type": "equipment", "name": "Heat Exchanger E-301", "properties": {"type": "shell-tube", "criticality": "high"}},
-    {"id": "n4", "node_type": "equipment", "name": "Boiler B-401", "properties": {"type": "water-tube", "criticality": "critical"}},
+    {
+        "id": "n1",
+        "node_type": "equipment",
+        "name": "Pump P-101",
+        "properties": {"type": "centrifugal", "criticality": "critical"},
+    },
+    {
+        "id": "n2",
+        "node_type": "equipment",
+        "name": "Compressor C-201",
+        "properties": {"type": "reciprocating", "criticality": "critical"},
+    },
+    {
+        "id": "n3",
+        "node_type": "equipment",
+        "name": "Heat Exchanger E-301",
+        "properties": {"type": "shell-tube", "criticality": "high"},
+    },
+    {
+        "id": "n4",
+        "node_type": "equipment",
+        "name": "Boiler B-401",
+        "properties": {"type": "water-tube", "criticality": "critical"},
+    },
     {"id": "n5", "node_type": "department", "name": "Mechanical Engineering", "properties": {}},
     {"id": "n6", "node_type": "department", "name": "Process Engineering", "properties": {}},
     {"id": "n7", "node_type": "department", "name": "Safety Department", "properties": {}},
@@ -33,8 +53,18 @@ DEMO_NODES = [
     {"id": "n14", "node_type": "sop", "name": "SOP-S-003: Hot Work Permit", "properties": {}},
     {"id": "n15", "node_type": "regulation", "name": "OSHA PSM 29 CFR 1910.119", "properties": {}},
     {"id": "n16", "node_type": "regulation", "name": "ISO 10816-3 Vibration", "properties": {}},
-    {"id": "n17", "node_type": "incident", "name": "INC-2025-042: Seal Leak P-101", "properties": {"severity": "minor"}},
-    {"id": "n18", "node_type": "incident", "name": "INC-2025-038: Tube Failure E-301", "properties": {"severity": "major"}},
+    {
+        "id": "n17",
+        "node_type": "incident",
+        "name": "INC-2025-042: Seal Leak P-101",
+        "properties": {"severity": "minor"},
+    },
+    {
+        "id": "n18",
+        "node_type": "incident",
+        "name": "INC-2025-038: Tube Failure E-301",
+        "properties": {"severity": "major"},
+    },
     {"id": "n19", "node_type": "process", "name": "Cooling Water System", "properties": {}},
     {"id": "n20", "node_type": "material", "name": "316 Stainless Steel", "properties": {}},
 ]
@@ -75,9 +105,15 @@ async def get_knowledge_graph(
             "total_nodes": len(DEMO_NODES),
             "total_edges": len(DEMO_EDGES),
             "node_types": {
-                "equipment": 4, "department": 3, "person": 3,
-                "location": 2, "sop": 2, "regulation": 2,
-                "incident": 2, "process": 1, "material": 1,
+                "equipment": 4,
+                "department": 3,
+                "person": 3,
+                "location": 2,
+                "sop": 2,
+                "regulation": 2,
+                "incident": 2,
+                "process": 1,
+                "material": 1,
             },
         },
     }
@@ -123,6 +159,24 @@ async def get_graph_stats(
     return {
         "total_nodes": len(DEMO_NODES),
         "total_edges": len(DEMO_EDGES),
-        "node_types": {"equipment": 4, "department": 3, "person": 3, "location": 2, "sop": 2, "regulation": 2, "incident": 2, "process": 1, "material": 1},
-        "relationship_types": {"maintained_by": 4, "located_in": 4, "governed_by": 4, "related_to": 2, "part_of": 3, "inspected_by": 2, "uses": 1},
+        "node_types": {
+            "equipment": 4,
+            "department": 3,
+            "person": 3,
+            "location": 2,
+            "sop": 2,
+            "regulation": 2,
+            "incident": 2,
+            "process": 1,
+            "material": 1,
+        },
+        "relationship_types": {
+            "maintained_by": 4,
+            "located_in": 4,
+            "governed_by": 4,
+            "related_to": 2,
+            "part_of": 3,
+            "inspected_by": 2,
+            "uses": 1,
+        },
     }

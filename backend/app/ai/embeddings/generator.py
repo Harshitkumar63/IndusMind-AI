@@ -54,12 +54,14 @@ class TextChunker:
 
             if current_length + sentence_len > self.chunk_size and current_chunk:
                 chunk_text = " ".join(current_chunk)
-                chunks.append({
-                    "content": chunk_text,
-                    "chunk_index": chunk_index,
-                    "token_count": len(chunk_text.split()),
-                    "metadata": metadata or {},
-                })
+                chunks.append(
+                    {
+                        "content": chunk_text,
+                        "chunk_index": chunk_index,
+                        "token_count": len(chunk_text.split()),
+                        "metadata": metadata or {},
+                    }
+                )
                 chunk_index += 1
 
                 # Keep overlap
@@ -85,12 +87,14 @@ class TextChunker:
         # Final chunk
         if current_chunk:
             chunk_text = " ".join(current_chunk)
-            chunks.append({
-                "content": chunk_text,
-                "chunk_index": chunk_index,
-                "token_count": len(chunk_text.split()),
-                "metadata": metadata or {},
-            })
+            chunks.append(
+                {
+                    "content": chunk_text,
+                    "chunk_index": chunk_index,
+                    "token_count": len(chunk_text.split()),
+                    "metadata": metadata or {},
+                }
+            )
 
         logger.info(f"Text chunked into {len(chunks)} chunks")
         return chunks
@@ -120,6 +124,7 @@ class EmbeddingGenerator:
         """Generate embeddings for a list of texts."""
         if settings.DEMO_MODE or not self._model:
             import random
+
             dim = 384
             return [[random.uniform(-0.1, 0.1) for _ in range(dim)] for _ in texts]
 

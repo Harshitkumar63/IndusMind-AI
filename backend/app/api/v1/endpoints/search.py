@@ -29,11 +29,46 @@ async def global_search(
     start = time.time()
 
     results = [
-        {"id": str(uuid.uuid4()), "type": "document", "title": "Centrifugal Pump P-101 Maintenance Manual", "snippet": f"...relevant content matching '{q}'...", "relevance_score": 0.95, "metadata": {"category": "manual", "file_type": "pdf"}},
-        {"id": str(uuid.uuid4()), "type": "equipment", "title": "Centrifugal Pump P-101", "snippet": "Critical process pump — Unit-1 Process Area", "relevance_score": 0.92, "metadata": {"status": "running", "criticality": "critical"}},
-        {"id": str(uuid.uuid4()), "type": "knowledge_node", "title": "Pump P-101", "snippet": "Equipment node with 8 relationships in knowledge graph", "relevance_score": 0.88, "metadata": {"node_type": "equipment"}},
-        {"id": str(uuid.uuid4()), "type": "document", "title": "Vibration Analysis Report — Compressor C-201", "snippet": f"...section related to '{q}'...", "relevance_score": 0.82, "metadata": {"category": "report", "file_type": "xlsx"}},
-        {"id": str(uuid.uuid4()), "type": "conversation", "title": "Pump P-101 Maintenance Query", "snippet": "Previous conversation about maintenance schedules", "relevance_score": 0.78, "metadata": {"message_count": 4}},
+        {
+            "id": str(uuid.uuid4()),
+            "type": "document",
+            "title": "Centrifugal Pump P-101 Maintenance Manual",
+            "snippet": f"...relevant content matching '{q}'...",
+            "relevance_score": 0.95,
+            "metadata": {"category": "manual", "file_type": "pdf"},
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "type": "equipment",
+            "title": "Centrifugal Pump P-101",
+            "snippet": "Critical process pump — Unit-1 Process Area",
+            "relevance_score": 0.92,
+            "metadata": {"status": "running", "criticality": "critical"},
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "type": "knowledge_node",
+            "title": "Pump P-101",
+            "snippet": "Equipment node with 8 relationships in knowledge graph",
+            "relevance_score": 0.88,
+            "metadata": {"node_type": "equipment"},
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "type": "document",
+            "title": "Vibration Analysis Report — Compressor C-201",
+            "snippet": f"...section related to '{q}'...",
+            "relevance_score": 0.82,
+            "metadata": {"category": "report", "file_type": "xlsx"},
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "type": "conversation",
+            "title": "Pump P-101 Maintenance Query",
+            "snippet": "Previous conversation about maintenance schedules",
+            "relevance_score": 0.78,
+            "metadata": {"message_count": 4},
+        },
     ]
 
     if type:
@@ -58,9 +93,24 @@ async def semantic_search(
     """Pure vector similarity search against document embeddings."""
     return {
         "results": [
-            {"chunk_id": str(uuid.uuid4()), "document_title": "P-101 Maintenance Manual", "content": f"Relevant chunk matching: {q}", "similarity_score": 0.94},
-            {"chunk_id": str(uuid.uuid4()), "document_title": "SOP Hot Work Permit", "content": f"Related procedure for: {q}", "similarity_score": 0.87},
-            {"chunk_id": str(uuid.uuid4()), "document_title": "Boiler Inspection Report", "content": f"Inspection finding related to: {q}", "similarity_score": 0.81},
+            {
+                "chunk_id": str(uuid.uuid4()),
+                "document_title": "P-101 Maintenance Manual",
+                "content": f"Relevant chunk matching: {q}",
+                "similarity_score": 0.94,
+            },
+            {
+                "chunk_id": str(uuid.uuid4()),
+                "document_title": "SOP Hot Work Permit",
+                "content": f"Related procedure for: {q}",
+                "similarity_score": 0.87,
+            },
+            {
+                "chunk_id": str(uuid.uuid4()),
+                "document_title": "Boiler Inspection Report",
+                "content": f"Inspection finding related to: {q}",
+                "similarity_score": 0.81,
+            },
         ],
         "query": q,
         "top_k": top_k,

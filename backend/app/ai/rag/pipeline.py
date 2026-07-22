@@ -78,12 +78,14 @@ class RAGPipeline:
                 if search_results["distances"] and search_results["distances"][0]:
                     distance = search_results["distances"][0][i]
 
-                context_chunks.append({
-                    "content": doc_text,
-                    "metadata": metadata,
-                    "distance": distance,
-                    "relevance_score": max(0, 1 - distance),
-                })
+                context_chunks.append(
+                    {
+                        "content": doc_text,
+                        "metadata": metadata,
+                        "distance": distance,
+                        "relevance_score": max(0, 1 - distance),
+                    }
+                )
 
         # Step 4: Assemble context string
         context = self._build_context(context_chunks)
@@ -114,9 +116,7 @@ class RAGPipeline:
         context_parts: list[str] = []
         for i, chunk in enumerate(chunks):
             source = chunk["metadata"].get("document_title", f"Source {i + 1}")
-            context_parts.append(
-                f"[Source {i + 1}: {source}]\n{chunk['content']}\n"
-            )
+            context_parts.append(f"[Source {i + 1}: {source}]\n{chunk['content']}\n")
         return "\n---\n".join(context_parts)
 
     def _build_citations(self, chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -124,13 +124,17 @@ class RAGPipeline:
         citations = []
         for chunk in chunks:
             if chunk.get("relevance_score", 0) > 0.5:
-                citations.append({
-                    "document_id": chunk["metadata"].get("document_id", ""),
-                    "document_title": chunk["metadata"].get("document_title", "Unknown"),
-                    "chunk_id": chunk["metadata"].get("chunk_id", ""),
-                    "chunk_content": chunk["content"][:200] + "..." if len(chunk["content"]) > 200 else chunk["content"],
-                    "relevance_score": round(chunk["relevance_score"], 3),
-                })
+                citations.append(
+                    {
+                        "document_id": chunk["metadata"].get("document_id", ""),
+                        "document_title": chunk["metadata"].get("document_title", "Unknown"),
+                        "chunk_id": chunk["metadata"].get("chunk_id", ""),
+                        "chunk_content": chunk["content"][:200] + "..."
+                        if len(chunk["content"]) > 200
+                        else chunk["content"],
+                        "relevance_score": round(chunk["relevance_score"], 3),
+                    }
+                )
         return citations
 
 

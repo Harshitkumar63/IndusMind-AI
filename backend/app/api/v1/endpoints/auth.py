@@ -11,7 +11,7 @@ from typing import Any
 from fastapi import APIRouter, Depends
 
 from app.api.v1.deps import get_current_user
-from app.schemas import StatusResponse, UserResponse, UserUpdate
+from app.schemas import StatusResponse, UserUpdate
 
 router = APIRouter()
 

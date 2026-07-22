@@ -12,16 +12,18 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-
 # ─── Base Schemas ──────────────────────────────────────────────
+
 
 class IndusMindBase(BaseModel):
     """Base schema with ORM mode enabled."""
+
     model_config = ConfigDict(from_attributes=True)
 
 
 class PaginatedResponse(BaseModel):
     """Standard paginated response wrapper."""
+
     items: list[Any]
     total: int
     page: int
@@ -31,11 +33,13 @@ class PaginatedResponse(BaseModel):
 
 class StatusResponse(BaseModel):
     """Simple status response."""
+
     status: str
     message: str
 
 
 # ─── User Schemas ──────────────────────────────────────────────
+
 
 class UserResponse(IndusMindBase):
     id: uuid.UUID
@@ -57,6 +61,7 @@ class UserUpdate(BaseModel):
 
 
 # ─── Document Schemas ──────────────────────────────────────────
+
 
 class DocumentUploadResponse(IndusMindBase):
     id: uuid.UUID
@@ -105,6 +110,7 @@ class ChunkResponse(IndusMindBase):
 
 # ─── Chat Schemas ──────────────────────────────────────────────
 
+
 class ConversationCreate(BaseModel):
     title: str | None = "New Conversation"
     context_type: str | None = None
@@ -148,6 +154,7 @@ class ConversationDetailResponse(ConversationResponse):
 
 class ChatStreamChunk(BaseModel):
     """Schema for streaming chat response chunks."""
+
     type: str  # "token", "citation", "done", "error"
     content: str | None = None
     citation: CitationDetail | None = None
@@ -156,6 +163,7 @@ class ChatStreamChunk(BaseModel):
 
 
 # ─── Equipment Schemas ──────────────────────────────────────────
+
 
 class EquipmentCreate(BaseModel):
     equipment_id: str = Field(..., description="Plant tag e.g. P-101")
@@ -204,6 +212,7 @@ class EquipmentHealthResponse(BaseModel):
 
 # ─── Maintenance Schemas ────────────────────────────────────────
 
+
 class MaintenanceCreate(BaseModel):
     equipment_id: uuid.UUID | None = None
     work_order: str
@@ -238,6 +247,7 @@ class MaintenanceIntelligenceResponse(BaseModel):
 
 
 # ─── Compliance Schemas ──────────────────────────────────────────
+
 
 class ComplianceResponse(IndusMindBase):
     id: uuid.UUID
@@ -274,6 +284,7 @@ class ComplianceAuditSummary(BaseModel):
 
 # ─── Analytics Schemas ────────────────────────────────────────
 
+
 class DashboardSummary(BaseModel):
     total_documents: int
     total_equipment: int
@@ -307,6 +318,7 @@ class AnalyticsTrend(BaseModel):
 
 
 # ─── Search Schemas ───────────────────────────────────────────
+
 
 class SearchRequest(BaseModel):
     query: str = Field(..., min_length=1, max_length=1000)

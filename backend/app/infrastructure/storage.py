@@ -6,11 +6,7 @@ Local file storage with S3-compatible interface for future migration.
 
 from __future__ import annotations
 
-import os
-import shutil
-import uuid
 from pathlib import Path
-from typing import BinaryIO
 
 import aiofiles
 

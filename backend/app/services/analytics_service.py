@@ -47,7 +47,13 @@ DEMO_INCIDENT_TRENDS = [
 DEMO_EQUIPMENT_HEALTH = [
     {"name": "P-101", "type": "Centrifugal Pump", "health_score": 78.5, "status": "running", "risk_level": "medium"},
     {"name": "B-401", "type": "Fire Tube Boiler", "health_score": 65.0, "status": "running", "risk_level": "high"},
-    {"name": "C-201", "type": "Reciprocating Compressor", "health_score": 71.2, "status": "running", "risk_level": "medium"},
+    {
+        "name": "C-201",
+        "type": "Reciprocating Compressor",
+        "health_score": 71.2,
+        "status": "running",
+        "risk_level": "medium",
+    },
     {"name": "E-301", "type": "Shell & Tube HX", "health_score": 82.0, "status": "running", "risk_level": "low"},
     {"name": "T-801", "type": "Cooling Tower", "health_score": 88.5, "status": "running", "risk_level": "low"},
     {"name": "V-501", "type": "Pressure Vessel", "health_score": 92.0, "status": "running", "risk_level": "low"},
@@ -56,8 +62,12 @@ DEMO_EQUIPMENT_HEALTH = [
 ]
 
 DEMO_COMPLIANCE_TREND = [
-    {"month": "Jan", "score": 76}, {"month": "Feb", "score": 78.5}, {"month": "Mar", "score": 80},
-    {"month": "Apr", "score": 79}, {"month": "May", "score": 82}, {"month": "Jun", "score": 81.6},
+    {"month": "Jan", "score": 76},
+    {"month": "Feb", "score": 78.5},
+    {"month": "Mar", "score": 80},
+    {"month": "Apr", "score": 79},
+    {"month": "May", "score": 82},
+    {"month": "Jun", "score": 81.6},
 ]
 
 DEMO_MAINTENANCE_TREND = [

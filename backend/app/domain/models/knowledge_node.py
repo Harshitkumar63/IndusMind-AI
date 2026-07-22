@@ -23,7 +23,8 @@ class KnowledgeNode(Base):
     name: Mapped[str] = mapped_column(String(500), index=True)
     properties: Mapped[dict | None] = mapped_column(JSONB, default=None)
     source_document_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="SET NULL"),
+        UUID(as_uuid=True),
+        ForeignKey("documents.id", ondelete="SET NULL"),
         default=None,
     )
     neo4j_id: Mapped[str | None] = mapped_column(String(255), default=None)
@@ -44,7 +45,8 @@ class KnowledgeEdge(Base):
     relationship: Mapped[KnowledgeRelationship] = mapped_column(String(50))
     properties: Mapped[dict | None] = mapped_column(JSONB, default=None)
     source_document_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="SET NULL"),
+        UUID(as_uuid=True),
+        ForeignKey("documents.id", ondelete="SET NULL"),
         default=None,
     )
     confidence: Mapped[float] = mapped_column(Float, default=1.0)

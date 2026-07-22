@@ -6,8 +6,6 @@ Async Redis client for caching and pub/sub.
 
 from __future__ import annotations
 
-from typing import Any
-
 import redis.asyncio as aioredis
 
 from app.core.config import get_settings

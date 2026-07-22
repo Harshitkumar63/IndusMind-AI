@@ -32,7 +32,7 @@ class Chunk(Base):
     metadata_json: Mapped[dict | None] = mapped_column(JSONB, default=None)
 
     # Relationships
-    document: Mapped["Document"] = relationship("Document", back_populates="chunks")
+    document: Mapped[Document] = relationship("Document", back_populates="chunks")
 
     def __repr__(self) -> str:
         return f"<Chunk {self.document_id}:{self.chunk_index}>"

@@ -7,7 +7,7 @@ JWT verification, password hashing, and role-based access control.
 from __future__ import annotations
 
 import enum
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import jwt
@@ -38,18 +38,19 @@ def verify_password(plain: str, hashed: str) -> bool:
 
 # ─── JWT ───────────────────────────────────────────────────────
 
+
 def create_access_token(
     subject: str,
     role: str = "viewer",
     expires_delta: timedelta | None = None,
 ) -> str:
     """Create a signed JWT access token."""
-    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(hours=24))
+    expire = datetime.now(UTC) + (expires_delta or timedelta(hours=24))
     payload = {
         "sub": subject,
         "role": role,
         "exp": expire,
-        "iat": datetime.now(timezone.utc),
+        "iat": datetime.now(UTC),
         "iss": settings.APP_NAME,
     }
     return jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
@@ -77,6 +78,7 @@ def decode_token(token: str) -> dict[str, Any]:
 
 
 # ─── Role-Based Access Control ─────────────────────────────────
+
 
 class UserRole(str, enum.Enum):
     """Platform user roles with hierarchical permissions."""
@@ -128,6 +130,7 @@ def require_role(minimum_role: UserRole):
     Usage:
         @router.get("/admin", dependencies=[Depends(require_role(UserRole.ADMIN))])
     """
+
     async def role_checker(
         payload: dict[str, Any] = Depends(get_current_user_payload),
     ) -> dict[str, Any]:

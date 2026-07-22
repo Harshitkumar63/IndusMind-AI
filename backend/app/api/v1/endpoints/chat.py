@@ -7,10 +7,10 @@ Conversation management and RAG-powered chat with citations.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 
 from app.api.v1.deps import get_current_user
 from app.schemas import (
@@ -110,7 +110,7 @@ async def create_conversation(
         "context_type": data.context_type,
         "message_count": 0,
         "last_message_at": None,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -133,7 +133,7 @@ async def get_conversation(
         "title": "Pump P-101 Maintenance Query",
         "context_type": "equipment",
         "message_count": 2,
-        "last_message_at": datetime.now(timezone.utc).isoformat(),
+        "last_message_at": datetime.now(UTC).isoformat(),
         "created_at": "2025-06-15T10:00:00Z",
         "messages": [
             {
@@ -163,6 +163,7 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
+
 @router.post("/conversations/{conversation_id}/messages", response_model=MessageResponse)
 async def send_message(
     conversation_id: str,
@@ -179,7 +180,7 @@ async def send_message(
             "citations": result.get("citations", []),
             "confidence_score": result.get("confidence_score", 0.85),
             "suggested_questions": result.get("suggested_questions", []),
-            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(UTC).isoformat(),
         }
 
     response = DEMO_AI_RESPONSES["default"]
@@ -190,7 +191,7 @@ async def send_message(
         "citations": response["citations"],
         "confidence_score": response["confidence_score"],
         "suggested_questions": response["suggested_questions"],
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
     }
 
 

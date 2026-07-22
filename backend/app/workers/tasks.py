@@ -55,6 +55,7 @@ def _run_async(coro: Any) -> Any:
 
 # ─── Task Definitions ───────────────────────────────────────
 
+
 def process_document_task(
     file_path: str,
     document_id: str,
@@ -138,9 +139,9 @@ def process_document_task(
 
 def rebuild_embeddings_task(document_id: str) -> dict[str, Any]:
     """Re-generate embeddings for a previously processed document."""
+    from app.ai.embeddings.generator import embedding_generator, text_chunker
     from app.infrastructure.storage import file_storage
     from app.infrastructure.vector_store import vector_store
-    from app.ai.embeddings.generator import embedding_generator, text_chunker
 
     logger.info("Rebuilding embeddings", document_id=document_id)
 

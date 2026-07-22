@@ -7,7 +7,7 @@ Manages conversations and RAG-powered question answering.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from app.ai.rag.pipeline import rag_pipeline
@@ -39,8 +39,8 @@ class ChatService:
             "user_id": user_id,
             "messages": [],
             "message_count": 0,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "last_message_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(UTC).isoformat(),
+            "last_message_at": datetime.now(UTC).isoformat(),
         }
         _demo_conversations[conv_id] = conversation
         return conversation
@@ -78,7 +78,7 @@ class ChatService:
             "id": str(uuid.uuid4()),
             "role": "user",
             "content": content,
-            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(UTC).isoformat(),
         }
         conversation["messages"].append(user_msg)
         conversation["message_count"] += 1
@@ -95,7 +95,7 @@ class ChatService:
             "citations": rag_result["citations"],
             "confidence_score": rag_result["confidence_score"],
             "suggested_questions": rag_result["suggested_questions"],
-            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(UTC).isoformat(),
         }
         conversation["messages"].append(ai_msg)
         conversation["message_count"] += 1

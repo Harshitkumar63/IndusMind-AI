@@ -8,11 +8,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import HTTPException, Request, status
+from fastapi import Request, status
 from fastapi.responses import JSONResponse
 
-
 # ─── Domain Exceptions ─────────────────────────────────────────
+
 
 class IndusMindException(Exception):
     """Base exception for all IndusMind domain errors."""
@@ -25,40 +25,48 @@ class IndusMindException(Exception):
 
 class EntityNotFoundError(IndusMindException):
     """Raised when a requested entity does not exist."""
+
     pass
 
 
 class DocumentProcessingError(IndusMindException):
     """Raised when document processing fails."""
+
     pass
 
 
 class AIServiceError(IndusMindException):
     """Raised when an AI service call fails."""
+
     pass
 
 
 class StorageError(IndusMindException):
     """Raised when file storage operations fail."""
+
     pass
 
 
 class ValidationError(IndusMindException):
     """Raised when domain validation fails."""
+
     pass
 
 
 class AuthenticationError(IndusMindException):
     """Raised when authentication fails."""
+
     pass
 
 
 class AuthorizationError(IndusMindException):
     """Raised when the user lacks required permissions."""
+
     pass
 
 
 # ─── Exception Handlers ────────────────────────────────────────
+
 
 async def entity_not_found_handler(request: Request, exc: EntityNotFoundError) -> JSONResponse:
     return JSONResponse(

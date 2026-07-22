@@ -7,7 +7,7 @@ Upload, manage, and retrieve industrial documents.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
@@ -16,7 +16,6 @@ from app.api.v1.deps import get_current_user
 from app.schemas import (
     ChunkResponse,
     DocumentDetailResponse,
-    DocumentResponse,
     DocumentUpdate,
     DocumentUploadResponse,
     PaginatedResponse,
@@ -138,7 +137,7 @@ async def upload_document(
         "file_type": ext.lstrip(".") if ext else "pdf",
         "file_size": 0,
         "status": "processing",
-        "uploaded_at": datetime.now(timezone.utc).isoformat(),
+        "uploaded_at": datetime.now(UTC).isoformat(),
     }
 
 

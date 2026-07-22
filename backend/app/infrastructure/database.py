@@ -7,8 +7,8 @@ Async SQLAlchemy 2.0 engine, session factory, and base model.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
+from datetime import UTC, datetime
 
 from sqlalchemy import MetaData, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -42,12 +42,12 @@ class Base(DeclarativeBase):
         index=True,
     )
     created_at: Mapped[datetime] = mapped_column(
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
         server_default=func.now(),
     )
     updated_at: Mapped[datetime | None] = mapped_column(
         default=None,
-        onupdate=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(UTC),
     )
 
 

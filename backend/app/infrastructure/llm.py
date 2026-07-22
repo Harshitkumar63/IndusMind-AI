@@ -6,7 +6,8 @@ Unified interface for LLM interactions (OpenAI, with extensibility for others).
 
 from __future__ import annotations
 
-from typing import Any, AsyncGenerator
+from collections.abc import AsyncGenerator
+from typing import Any
 
 from app.core.config import get_settings
 from app.core.exceptions import AIServiceError
@@ -137,11 +138,13 @@ class LLMGateway:
             if system_prompt:
                 messages.append({"role": "system", "content": system_prompt})
             if context:
-                messages.append({
-                    "role": "system",
-                    "content": f"Use the following context to answer the question. "
-                    f"Always cite your sources.\n\nContext:\n{context}",
-                })
+                messages.append(
+                    {
+                        "role": "system",
+                        "content": f"Use the following context to answer the question. "
+                        f"Always cite your sources.\n\nContext:\n{context}",
+                    }
+                )
             messages.append({"role": "user", "content": query})
 
             response = await self._client.chat.completions.create(
@@ -179,10 +182,12 @@ class LLMGateway:
             if system_prompt:
                 messages.append({"role": "system", "content": system_prompt})
             if context:
-                messages.append({
-                    "role": "system",
-                    "content": f"Context:\n{context}",
-                })
+                messages.append(
+                    {
+                        "role": "system",
+                        "content": f"Context:\n{context}",
+                    }
+                )
             messages.append({"role": "user", "content": query})
 
             stream = await self._client.chat.completions.create(
@@ -204,6 +209,7 @@ class LLMGateway:
         """Generate embeddings for a batch of text chunks."""
         if settings.DEMO_MODE or not self._client:
             import random
+
             return [[random.uniform(-1, 1) for _ in range(384)] for _ in texts]
 
         try:

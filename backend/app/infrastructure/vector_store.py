@@ -6,7 +6,6 @@ ChromaDB client for document embedding storage and similarity search.
 
 from __future__ import annotations
 
-import uuid
 from typing import Any
 
 from app.core.config import get_settings

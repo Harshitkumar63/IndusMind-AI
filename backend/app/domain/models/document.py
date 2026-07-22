@@ -33,13 +33,9 @@ class Document(Base):
     file_path: Mapped[str] = mapped_column(Text)
     file_type: Mapped[DocumentType] = mapped_column(String(50))
     file_size: Mapped[int] = mapped_column(BigInteger)
-    category: Mapped[DocumentCategory] = mapped_column(
-        String(50), default=DocumentCategory.OTHER
-    )
+    category: Mapped[DocumentCategory] = mapped_column(String(50), default=DocumentCategory.OTHER)
     tags: Mapped[list[str] | None] = mapped_column(ARRAY(String(100)), default=None)
-    status: Mapped[DocumentStatus] = mapped_column(
-        String(50), default=DocumentStatus.UPLOADING, index=True
-    )
+    status: Mapped[DocumentStatus] = mapped_column(String(50), default=DocumentStatus.UPLOADING, index=True)
     processing_progress: Mapped[float] = mapped_column(Float, default=0.0)
     metadata_json: Mapped[dict | None] = mapped_column(JSONB, default=None)
     extracted_text: Mapped[str | None] = mapped_column(Text, default=None)
@@ -48,8 +44,8 @@ class Document(Base):
     processed_at: Mapped[datetime | None] = mapped_column(default=None)
 
     # Relationships
-    user: Mapped["User"] = relationship("User", back_populates="documents")
-    chunks: Mapped[list["Chunk"]] = relationship(
+    user: Mapped[User] = relationship("User", back_populates="documents")
+    chunks: Mapped[list[Chunk]] = relationship(
         "Chunk", back_populates="document", cascade="all, delete-orphan", lazy="selectin"
     )
 

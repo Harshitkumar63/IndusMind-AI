@@ -84,6 +84,7 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             if v.startswith("["):
                 import json
+
                 return json.loads(v)
             return [origin.strip() for origin in v.split(",")]
         return v

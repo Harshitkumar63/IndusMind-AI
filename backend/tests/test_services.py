@@ -11,7 +11,6 @@ import pytest
 from app.ai.embeddings.generator import text_chunker
 from app.ai.ner.entity_extractor import entity_extractor
 from app.ai.rag.pipeline import rag_pipeline
-from app.services.document_service import document_service
 
 
 class TestTextChunker:

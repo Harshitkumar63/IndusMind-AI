@@ -21,22 +21,21 @@ class Incident(Base):
     __tablename__ = "incidents"
 
     equipment_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("equipment.id", ondelete="SET NULL"),
-        index=True, default=None,
+        UUID(as_uuid=True),
+        ForeignKey("equipment.id", ondelete="SET NULL"),
+        index=True,
+        default=None,
     )
     reported_by: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"),
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
         default=None,
     )
     incident_number: Mapped[str] = mapped_column(String(100), unique=True, index=True)
     title: Mapped[str] = mapped_column(String(500))
     description: Mapped[str | None] = mapped_column(Text, default=None)
-    severity: Mapped[IncidentSeverity] = mapped_column(
-        String(50), default=IncidentSeverity.MINOR
-    )
-    status: Mapped[IncidentStatus] = mapped_column(
-        String(50), default=IncidentStatus.OPEN, index=True
-    )
+    severity: Mapped[IncidentSeverity] = mapped_column(String(50), default=IncidentSeverity.MINOR)
+    status: Mapped[IncidentStatus] = mapped_column(String(50), default=IncidentStatus.OPEN, index=True)
     root_cause: Mapped[str | None] = mapped_column(Text, default=None)
     corrective_action: Mapped[str | None] = mapped_column(Text, default=None)
     incident_date: Mapped[date | None] = mapped_column(Date, default=None)
@@ -44,9 +43,7 @@ class Incident(Base):
     metadata_json: Mapped[dict | None] = mapped_column(JSONB, default=None)
 
     # Relationships
-    equipment: Mapped["Equipment | None"] = relationship(
-        "Equipment", back_populates="incidents"
-    )
+    equipment: Mapped[Equipment | None] = relationship("Equipment", back_populates="incidents")
 
     def __repr__(self) -> str:
         return f"<Incident {self.incident_number}: {self.title}>"

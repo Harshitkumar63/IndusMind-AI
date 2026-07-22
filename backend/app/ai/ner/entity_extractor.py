@@ -86,60 +86,70 @@ class EntityExtractor:
             for match in re.finditer(pattern, text):
                 name = match.group(0).strip()
                 if name and name not in [e["name"] for e in entities["equipment"]]:
-                    entities["equipment"].append({
-                        "name": name,
-                        "type": "equipment",
-                        "position": match.start(),
-                        "confidence": 0.9,
-                    })
+                    entities["equipment"].append(
+                        {
+                            "name": name,
+                            "type": "equipment",
+                            "position": match.start(),
+                            "confidence": 0.9,
+                        }
+                    )
 
         # SOPs
         for pattern in SOP_PATTERNS:
             for match in re.finditer(pattern, text):
                 name = match.group(0).strip()
                 if name and name not in [e["name"] for e in entities["sop"]]:
-                    entities["sop"].append({
-                        "name": name,
-                        "type": "sop",
-                        "position": match.start(),
-                        "confidence": 0.85,
-                    })
+                    entities["sop"].append(
+                        {
+                            "name": name,
+                            "type": "sop",
+                            "position": match.start(),
+                            "confidence": 0.85,
+                        }
+                    )
 
         # Regulations
         for pattern in REGULATION_PATTERNS:
             for match in re.finditer(pattern, text):
                 name = match.group(0).strip()
                 if name and name not in [e["name"] for e in entities["regulation"]]:
-                    entities["regulation"].append({
-                        "name": name,
-                        "type": "regulation",
-                        "position": match.start(),
-                        "confidence": 0.92,
-                    })
+                    entities["regulation"].append(
+                        {
+                            "name": name,
+                            "type": "regulation",
+                            "position": match.start(),
+                            "confidence": 0.92,
+                        }
+                    )
 
         # Incidents
         for pattern in INCIDENT_PATTERNS:
             for match in re.finditer(pattern, text):
                 name = match.group(0).strip()
                 if name and name not in [e["name"] for e in entities["incident"]]:
-                    entities["incident"].append({
-                        "name": name,
-                        "type": "incident",
-                        "position": match.start(),
-                        "confidence": 0.88,
-                    })
+                    entities["incident"].append(
+                        {
+                            "name": name,
+                            "type": "incident",
+                            "position": match.start(),
+                            "confidence": 0.88,
+                        }
+                    )
 
         # Locations
         for pattern in LOCATION_PATTERNS:
             for match in re.finditer(pattern, text):
                 name = match.group(0).strip()
                 if len(name) > 3 and name not in [e["name"] for e in entities["location"]]:
-                    entities["location"].append({
-                        "name": name,
-                        "type": "location",
-                        "position": match.start(),
-                        "confidence": 0.8,
-                    })
+                    entities["location"].append(
+                        {
+                            "name": name,
+                            "type": "location",
+                            "position": match.start(),
+                            "confidence": 0.8,
+                        }
+                    )
 
         # People
         for pattern in PERSON_PATTERNS:
@@ -149,12 +159,14 @@ class EntityExtractor:
                 for prefix in ["Approved by:", "Inspected by:", "Reported by:"]:
                     name = name.replace(prefix, "").strip()
                 if name and len(name) > 3 and name not in [e["name"] for e in entities["person"]]:
-                    entities["person"].append({
-                        "name": name,
-                        "type": "person",
-                        "position": match.start(),
-                        "confidence": 0.75,
-                    })
+                    entities["person"].append(
+                        {
+                            "name": name,
+                            "type": "person",
+                            "position": match.start(),
+                            "confidence": 0.75,
+                        }
+                    )
 
         total = sum(len(v) for v in entities.values())
         logger.info(f"Extracted {total} entities from text", breakdown={k: len(v) for k, v in entities.items()})
@@ -182,41 +194,49 @@ class EntityExtractor:
 
             for eq in para_equipment:
                 for loc in para_locations:
-                    relationships.append({
-                        "source": eq["name"],
-                        "source_type": "equipment",
-                        "target": loc["name"],
-                        "target_type": "location",
-                        "relationship": "located_in",
-                        "confidence": 0.7,
-                    })
+                    relationships.append(
+                        {
+                            "source": eq["name"],
+                            "source_type": "equipment",
+                            "target": loc["name"],
+                            "target_type": "location",
+                            "relationship": "located_in",
+                            "confidence": 0.7,
+                        }
+                    )
                 for person in para_people:
-                    relationships.append({
-                        "source": eq["name"],
-                        "source_type": "equipment",
-                        "target": person["name"],
-                        "target_type": "person",
-                        "relationship": "maintained_by",
-                        "confidence": 0.65,
-                    })
+                    relationships.append(
+                        {
+                            "source": eq["name"],
+                            "source_type": "equipment",
+                            "target": person["name"],
+                            "target_type": "person",
+                            "relationship": "maintained_by",
+                            "confidence": 0.65,
+                        }
+                    )
                 for sop in para_sops:
-                    relationships.append({
-                        "source": eq["name"],
-                        "source_type": "equipment",
-                        "target": sop["name"],
-                        "target_type": "sop",
-                        "relationship": "governed_by",
-                        "confidence": 0.75,
-                    })
+                    relationships.append(
+                        {
+                            "source": eq["name"],
+                            "source_type": "equipment",
+                            "target": sop["name"],
+                            "target_type": "sop",
+                            "relationship": "governed_by",
+                            "confidence": 0.75,
+                        }
+                    )
                 for reg in para_regulations:
-                    relationships.append({
-                        "source": eq["name"],
-                        "source_type": "equipment",
-                        "target": reg["name"],
-                        "target_type": "regulation",
-                        "relationship": "governed_by",
-                        "confidence": 0.8,
-                    })
+                    relationships.append(
+                        {
+                            "source": eq["name"],
+                            "source_type": "equipment",
+                            "target": reg["name"],
+                            "target_type": "regulation",
+                            "relationship": "governed_by",
+                            "confidence": 0.8,
+                        }
+                    )
 
         logger.info(f"Inferred {len(relationships)} relationships")
         return relationships

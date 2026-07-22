@@ -6,11 +6,10 @@ Stores platform users synced from Clerk authentication.
 
 from __future__ import annotations
 
-import uuid
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Text
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.domain.enums import UserRole
@@ -34,12 +33,8 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
 
     # Relationships
-    documents: Mapped[list["Document"]] = relationship(
-        "Document", back_populates="user", lazy="selectin"
-    )
-    conversations: Mapped[list["Conversation"]] = relationship(
-        "Conversation", back_populates="user", lazy="selectin"
-    )
+    documents: Mapped[list[Document]] = relationship("Document", back_populates="user", lazy="selectin")
+    conversations: Mapped[list[Conversation]] = relationship("Conversation", back_populates="user", lazy="selectin")
 
     def __repr__(self) -> str:
         return f"<User {self.email} ({self.role})>"

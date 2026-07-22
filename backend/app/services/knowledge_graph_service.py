@@ -19,24 +19,74 @@ logger = get_logger(__name__)
 
 DEMO_GRAPH = {
     "nodes": [
-        {"id": "n1", "node_type": "equipment", "name": "Pump P-101", "properties": {"type": "centrifugal", "manufacturer": "Sulzer", "year": 2019}},
-        {"id": "n2", "node_type": "equipment", "name": "Compressor C-201", "properties": {"type": "reciprocating", "manufacturer": "Atlas Copco"}},
-        {"id": "n3", "node_type": "equipment", "name": "Heat Exchanger E-301", "properties": {"type": "shell_and_tube"}},
-        {"id": "n4", "node_type": "equipment", "name": "Boiler B-401", "properties": {"type": "fire_tube", "capacity": "20 TPH"}},
+        {
+            "id": "n1",
+            "node_type": "equipment",
+            "name": "Pump P-101",
+            "properties": {"type": "centrifugal", "manufacturer": "Sulzer", "year": 2019},
+        },
+        {
+            "id": "n2",
+            "node_type": "equipment",
+            "name": "Compressor C-201",
+            "properties": {"type": "reciprocating", "manufacturer": "Atlas Copco"},
+        },
+        {
+            "id": "n3",
+            "node_type": "equipment",
+            "name": "Heat Exchanger E-301",
+            "properties": {"type": "shell_and_tube"},
+        },
+        {
+            "id": "n4",
+            "node_type": "equipment",
+            "name": "Boiler B-401",
+            "properties": {"type": "fire_tube", "capacity": "20 TPH"},
+        },
         {"id": "n5", "node_type": "department", "name": "Mechanical Engineering"},
         {"id": "n6", "node_type": "department", "name": "Process Engineering"},
         {"id": "n7", "node_type": "department", "name": "Safety Department"},
-        {"id": "n8", "node_type": "person", "name": "Rajesh Kumar", "properties": {"role": "Sr. Maintenance Engineer", "department": "Mechanical"}},
-        {"id": "n9", "node_type": "person", "name": "Priya Sharma", "properties": {"role": "Safety Officer", "department": "Safety"}},
+        {
+            "id": "n8",
+            "node_type": "person",
+            "name": "Rajesh Kumar",
+            "properties": {"role": "Sr. Maintenance Engineer", "department": "Mechanical"},
+        },
+        {
+            "id": "n9",
+            "node_type": "person",
+            "name": "Priya Sharma",
+            "properties": {"role": "Safety Officer", "department": "Safety"},
+        },
         {"id": "n10", "node_type": "person", "name": "Amit Patel", "properties": {"role": "Plant Manager"}},
         {"id": "n11", "node_type": "location", "name": "Unit-1 Process Area"},
         {"id": "n12", "node_type": "location", "name": "Unit-2 Utilities"},
         {"id": "n13", "node_type": "sop", "name": "SOP-M-001", "properties": {"title": "Pump Maintenance Procedure"}},
         {"id": "n14", "node_type": "sop", "name": "SOP-S-003", "properties": {"title": "Hot Work Permit Procedure"}},
-        {"id": "n15", "node_type": "regulation", "name": "OSHA PSM 1910.119", "properties": {"section": "Process Safety Management"}},
-        {"id": "n16", "node_type": "regulation", "name": "ISO 10816-3", "properties": {"section": "Vibration Severity"}},
-        {"id": "n17", "node_type": "incident", "name": "INC-042: Mechanical Seal Leak", "properties": {"date": "2025-03-15", "severity": "minor"}},
-        {"id": "n18", "node_type": "incident", "name": "INC-038: Tube Failure", "properties": {"date": "2025-01-22", "severity": "major"}},
+        {
+            "id": "n15",
+            "node_type": "regulation",
+            "name": "OSHA PSM 1910.119",
+            "properties": {"section": "Process Safety Management"},
+        },
+        {
+            "id": "n16",
+            "node_type": "regulation",
+            "name": "ISO 10816-3",
+            "properties": {"section": "Vibration Severity"},
+        },
+        {
+            "id": "n17",
+            "node_type": "incident",
+            "name": "INC-042: Mechanical Seal Leak",
+            "properties": {"date": "2025-03-15", "severity": "minor"},
+        },
+        {
+            "id": "n18",
+            "node_type": "incident",
+            "name": "INC-038: Tube Failure",
+            "properties": {"date": "2025-01-22", "severity": "major"},
+        },
         {"id": "n19", "node_type": "process", "name": "Cooling Water System"},
         {"id": "n20", "node_type": "material", "name": "316 Stainless Steel"},
     ],
@@ -117,9 +167,9 @@ class KnowledgeGraphService:
         if settings.DEMO_MODE:
             q_lower = query.lower()
             return [
-                node for node in DEMO_GRAPH["nodes"]
-                if q_lower in node["name"].lower()
-                and (node_type is None or node["node_type"] == node_type)
+                node
+                for node in DEMO_GRAPH["nodes"]
+                if q_lower in node["name"].lower() and (node_type is None or node["node_type"] == node_type)
             ]
         return await graph_db.search_nodes(query, node_type)
 

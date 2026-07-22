@@ -89,11 +89,7 @@ class GraphDatabase:
         """Retrieve the full knowledge graph (nodes + relationships)."""
         if not self._driver:
             return {"nodes": [], "edges": []}
-        query = (
-            f"MATCH (n) "
-            f"OPTIONAL MATCH (n)-[r]->(m) "
-            f"RETURN n, r, m LIMIT {limit}"
-        )
+        query = f"MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m LIMIT {limit}"
         nodes: dict[str, dict] = {}
         edges: list[dict] = []
         async with self._driver.session() as session:
@@ -119,12 +115,14 @@ class GraphDatabase:
                             "name": dict(m).get("name", ""),
                             "properties": dict(m),
                         }
-                    edges.append({
-                        "source": node_id,
-                        "target": m_id,
-                        "relationship": r.type,
-                        "properties": dict(r),
-                    })
+                    edges.append(
+                        {
+                            "source": node_id,
+                            "target": m_id,
+                            "relationship": r.type,
+                            "properties": dict(r),
+                        }
+                    )
         return {"nodes": list(nodes.values()), "edges": edges}
 
     async def search_nodes(self, name_query: str, node_type: str | None = None) -> list[dict]:
@@ -140,12 +138,14 @@ class GraphDatabase:
             result = await session.run(query, q=name_query)
             async for record in result:
                 n = record["n"]
-                results.append({
-                    "id": n.element_id,
-                    "node_type": list(n.labels)[0] if n.labels else "unknown",
-                    "name": dict(n).get("name", ""),
-                    "properties": dict(n),
-                })
+                results.append(
+                    {
+                        "id": n.element_id,
+                        "node_type": list(n.labels)[0] if n.labels else "unknown",
+                        "name": dict(n).get("name", ""),
+                        "properties": dict(n),
+                    }
+                )
         return results
 
 

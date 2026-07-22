@@ -21,21 +21,20 @@ class MaintenanceRecord(Base):
     __tablename__ = "maintenance_records"
 
     equipment_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("equipment.id", ondelete="SET NULL"),
-        index=True, default=None,
+        UUID(as_uuid=True),
+        ForeignKey("equipment.id", ondelete="SET NULL"),
+        index=True,
+        default=None,
     )
     assigned_to: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"),
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
         default=None,
     )
     work_order: Mapped[str] = mapped_column(String(100), unique=True, index=True)
     type: Mapped[MaintenanceType] = mapped_column(String(50))
-    priority: Mapped[MaintenancePriority] = mapped_column(
-        String(50), default=MaintenancePriority.MEDIUM
-    )
-    status: Mapped[MaintenanceStatus] = mapped_column(
-        String(50), default=MaintenanceStatus.SCHEDULED, index=True
-    )
+    priority: Mapped[MaintenancePriority] = mapped_column(String(50), default=MaintenancePriority.MEDIUM)
+    status: Mapped[MaintenanceStatus] = mapped_column(String(50), default=MaintenanceStatus.SCHEDULED, index=True)
     description: Mapped[str | None] = mapped_column(Text, default=None)
     findings: Mapped[str | None] = mapped_column(Text, default=None)
     actions_taken: Mapped[str | None] = mapped_column(Text, default=None)
@@ -46,9 +45,7 @@ class MaintenanceRecord(Base):
     parts_used: Mapped[dict | None] = mapped_column(JSONB, default=None)
 
     # Relationships
-    equipment: Mapped["Equipment | None"] = relationship(
-        "Equipment", back_populates="maintenance_records"
-    )
+    equipment: Mapped[Equipment | None] = relationship("Equipment", back_populates="maintenance_records")
 
     def __repr__(self) -> str:
         return f"<MaintenanceRecord {self.work_order}: {self.status}>"

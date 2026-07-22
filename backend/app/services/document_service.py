@@ -7,7 +7,7 @@ Handles document upload, processing orchestration, and CRUD operations.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from app.ai.embeddings.generator import embedding_generator, text_chunker
@@ -106,7 +106,7 @@ class DocumentService:
             "entities": entities,
             "relationships": relationships,
             "uploaded_by": uploaded_by,
-            "uploaded_at": datetime.now(timezone.utc).isoformat(),
+            "uploaded_at": datetime.now(UTC).isoformat(),
         }
 
         logger.info(
@@ -133,10 +133,12 @@ class DocumentService:
         chunks = []
         if results["documents"] and results["documents"][0]:
             for i, text in enumerate(results["documents"][0]):
-                chunks.append({
-                    "content": text,
-                    "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
-                })
+                chunks.append(
+                    {
+                        "content": text,
+                        "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
+                    }
+                )
         return chunks
 
 

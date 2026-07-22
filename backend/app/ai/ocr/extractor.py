@@ -6,7 +6,6 @@ Extracts text from PDFs (native + scanned), DOCX, XLSX, CSV, and images.
 
 from __future__ import annotations
 
-import io
 from pathlib import Path
 from typing import Any
 
@@ -82,7 +81,12 @@ class DocumentExtractor:
             return {"text": full_text, "page_count": len(pages_text), "metadata": metadata, "method": "pymupdf"}
         except ImportError:
             logger.warning("PyMuPDF not installed, returning placeholder")
-            return {"text": f"[PDF extraction requires PyMuPDF: {file_path}]", "page_count": 0, "metadata": {}, "method": "placeholder"}
+            return {
+                "text": f"[PDF extraction requires PyMuPDF: {file_path}]",
+                "page_count": 0,
+                "metadata": {},
+                "method": "placeholder",
+            }
 
     async def _extract_docx(self, file_path: str) -> dict[str, Any]:
         """Extract text from DOCX files."""
@@ -99,7 +103,12 @@ class DocumentExtractor:
                         paragraphs.append(row_text)
             return {"text": "\n\n".join(paragraphs), "page_count": 1, "metadata": {}, "method": "python-docx"}
         except ImportError:
-            return {"text": f"[DOCX extraction requires python-docx: {file_path}]", "page_count": 0, "metadata": {}, "method": "placeholder"}
+            return {
+                "text": f"[DOCX extraction requires python-docx: {file_path}]",
+                "page_count": 0,
+                "metadata": {},
+                "method": "placeholder",
+            }
 
     async def _extract_xlsx(self, file_path: str) -> dict[str, Any]:
         """Extract text from Excel files."""
@@ -118,16 +127,26 @@ class DocumentExtractor:
                 if rows:
                     sheets_text.append(f"## Sheet: {sheet_name}\n" + "\n".join(rows))
             wb.close()
-            return {"text": "\n\n".join(sheets_text), "page_count": len(sheets_text), "metadata": {"sheets": len(sheets_text)}, "method": "openpyxl"}
+            return {
+                "text": "\n\n".join(sheets_text),
+                "page_count": len(sheets_text),
+                "metadata": {"sheets": len(sheets_text)},
+                "method": "openpyxl",
+            }
         except ImportError:
-            return {"text": f"[Excel extraction requires openpyxl: {file_path}]", "page_count": 0, "metadata": {}, "method": "placeholder"}
+            return {
+                "text": f"[Excel extraction requires openpyxl: {file_path}]",
+                "page_count": 0,
+                "metadata": {},
+                "method": "placeholder",
+            }
 
     async def _extract_csv(self, file_path: str) -> dict[str, Any]:
         """Extract text from CSV files."""
         import csv
 
         rows: list[str] = []
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        with open(file_path, encoding="utf-8", errors="ignore") as f:
             reader = csv.reader(f)
             for row in reader:
                 if any(cell.strip() for cell in row):
@@ -136,7 +155,7 @@ class DocumentExtractor:
 
     async def _extract_txt(self, file_path: str) -> dict[str, Any]:
         """Extract text from plain text files."""
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        with open(file_path, encoding="utf-8", errors="ignore") as f:
             text = f.read()
         return {"text": text, "page_count": 1, "metadata": {}, "method": "plaintext"}
 
@@ -148,9 +167,19 @@ class DocumentExtractor:
 
             img = Image.open(file_path)
             text = pytesseract.image_to_string(img)
-            return {"text": text, "page_count": 1, "metadata": {"width": img.width, "height": img.height}, "method": "tesseract"}
+            return {
+                "text": text,
+                "page_count": 1,
+                "metadata": {"width": img.width, "height": img.height},
+                "method": "tesseract",
+            }
         except ImportError:
-            return {"text": f"[Image OCR requires pytesseract: {file_path}]", "page_count": 0, "metadata": {}, "method": "placeholder"}
+            return {
+                "text": f"[Image OCR requires pytesseract: {file_path}]",
+                "page_count": 0,
+                "metadata": {},
+                "method": "placeholder",
+            }
 
 
 # Singleton
