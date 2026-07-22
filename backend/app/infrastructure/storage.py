@@ -46,8 +46,8 @@ class FileStorage:
                 await f.write(file_content)
             logger.info("File saved", path=str(file_path), size=len(file_content))
             return str(file_path)
-        except Exception as e:
-            raise StorageError(f"Failed to save file: {e}")
+        except Exception as err:
+            raise StorageError(f"Failed to save file: {err}") from err
 
     async def save_extracted_text(self, document_id: str, text: str) -> str:
         """Save extracted text from a document."""
@@ -56,16 +56,16 @@ class FileStorage:
             async with aiofiles.open(file_path, "w", encoding="utf-8") as f:
                 await f.write(text)
             return str(file_path)
-        except Exception as e:
-            raise StorageError(f"Failed to save extracted text: {e}")
+        except Exception as err:
+            raise StorageError(f"Failed to save extracted text: {err}") from err
 
     async def read_file(self, file_path: str) -> bytes:
         """Read a file from storage."""
         try:
             async with aiofiles.open(file_path, "rb") as f:
                 return await f.read()
-        except FileNotFoundError:
-            raise StorageError(f"File not found: {file_path}")
+        except FileNotFoundError as err:
+            raise StorageError(f"File not found: {file_path}") from err
 
     async def delete_file(self, file_path: str) -> None:
         """Delete a file from storage."""

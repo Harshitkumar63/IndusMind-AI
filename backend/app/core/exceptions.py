@@ -14,7 +14,7 @@ from fastapi.responses import JSONResponse
 # ─── Domain Exceptions ─────────────────────────────────────────
 
 
-class IndusMindException(Exception):
+class IndusMindError(Exception):
     """Base exception for all IndusMind domain errors."""
 
     def __init__(self, message: str, details: dict[str, Any] | None = None) -> None:
@@ -23,43 +23,46 @@ class IndusMindException(Exception):
         super().__init__(self.message)
 
 
-class EntityNotFoundError(IndusMindException):
+IndusMindException = IndusMindError
+
+
+class EntityNotFoundError(IndusMindError):
     """Raised when a requested entity does not exist."""
 
     pass
 
 
-class DocumentProcessingError(IndusMindException):
+class DocumentProcessingError(IndusMindError):
     """Raised when document processing fails."""
 
     pass
 
 
-class AIServiceError(IndusMindException):
+class AIServiceError(IndusMindError):
     """Raised when an AI service call fails."""
 
     pass
 
 
-class StorageError(IndusMindException):
+class StorageError(IndusMindError):
     """Raised when file storage operations fail."""
 
     pass
 
 
-class ValidationError(IndusMindException):
+class ValidationError(IndusMindError):
     """Raised when domain validation fails."""
 
     pass
 
 
-class AuthenticationError(IndusMindException):
+class AuthenticationError(IndusMindError):
     """Raised when authentication fails."""
 
     pass
 
 
-class AuthorizationError(IndusMindException):
+class AuthorizationError(IndusMindError):
     """Raised when the user lacks required permissions."""
 
     pass
