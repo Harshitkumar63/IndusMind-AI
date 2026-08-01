@@ -13,7 +13,7 @@ jobs:
     name: Docker Build Validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Build backend image
         run: docker build -f docker/backend.Dockerfile -t indusmind-backend ./backend
